@@ -1,8 +1,9 @@
+require('dotenv').config();
+
 const mongoose = require('mongoose');
 const app = require('./app');
 
 const PORT = process.env.PORT || 3000;
-process.env.DB = 'mongodb://localhost/nodeJs';
 
 const startServer = async () => {
     try {
