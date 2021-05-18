@@ -3,7 +3,7 @@
       "target": "es6",
       "module": "commonjs",
       "sourceMap": true,
-      "outDir": "./build",
+      "outDir": "./dist",
       "rootDir": "./src",
       /* Strict Type-Checking Options */
       "strict": true,
@@ -15,5 +15,5 @@
   },
   "lib": ["es2016"],
   "include": ["src/**/*"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }
