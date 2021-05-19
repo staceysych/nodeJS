@@ -1,24 +1,23 @@
-import { model, Schema, Model, Document, Types } from 'mongoose';
+import { Types, Schema } from 'mongoose';
+import { prop, getModelForClass, Severity } from '@typegoose/typegoose';
 
-interface IProduct extends Document {
-    displayName: string;
-    categoryIds: [Types.ObjectId];
-    createdAt: Date;
-    totalRating: number;
-    price: number,
-  }
+class ProductClass {
+  @prop({ required: true})
+    public displayName!: string;
 
-const ProductSchema: Schema = new Schema(
-  {
-    displayName: { type: String, required: true },
-    categoryIds: { type: [Types.ObjectId], required: true },
-    createdAt: { type: Date, required: true },
-    totalRating: { type: Number, required: true },
-    price: { type: Number, required: true },
-  },
-  { collection: 'products' }
-);
+    @prop({ required: true })
+    public categoryIds!: [Types.ObjectId];
 
-const Product: Model<IProduct> = model('Product', ProductSchema);
+    @prop({ required: true, type: () => String })
+    public createdAt!: Date;
+
+    @prop({ required: true })
+    public totalRating!: number;
+
+    @prop({ required: true })
+    public price!: number;
+}
+
+const Product = getModelForClass(ProductClass, { schemaOptions: { collection: "products" }});
 
 module.exports = Product;

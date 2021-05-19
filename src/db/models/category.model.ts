@@ -1,16 +1,9 @@
-import { model, Schema, Model, Document } from 'mongoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
+class CategoryClass {
+  @prop({ required: true, type: () => String })
+    public displayName!: string;
+}
 
-interface ICategory extends Document {
-    displayName: string;
-  }
-
-const CategorySchema: Schema = new Schema(
-  {
-    displayName: { type: String, required: true },
-  },
-  { collection: 'categories' }
-);
-
-const Category: Model<ICategory> = model('Category', CategorySchema);
+const Category = getModelForClass(CategoryClass, { schemaOptions: { collection: "categories" }});
 
 module.exports = Category;
