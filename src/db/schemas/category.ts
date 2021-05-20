@@ -6,4 +6,4 @@ class CategoryClass {
 
 const Category = getModelForClass(CategoryClass, { schemaOptions: { collection: "categories" }});
 
-module.exports = Category;
+export {Category};

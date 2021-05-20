@@ -1,5 +1,5 @@
-import { Types, Schema } from 'mongoose';
-import { prop, getModelForClass, Severity } from '@typegoose/typegoose';
+import { Types } from 'mongoose';
+import { prop, getModelForClass } from '@typegoose/typegoose';
 
 class ProductClass {
   @prop({ required: true})
@@ -20,4 +20,4 @@ class ProductClass {
 
 const Product = getModelForClass(ProductClass, { schemaOptions: { collection: "products" }});
 
-module.exports = Product;
+export { Product };

@@ -1,20 +1,20 @@
 require('dotenv').config();
 
-const mongoose = require('mongoose');
-const app = require('./app');
+import { db, port } from './config/config';
 
-const PORT = process.env.PORT || 3000;
+const mongoose = require('mongoose');
+const app = require('./routes');
 
 const startServer = async () => {
     try {
-        await mongoose.connect(process.env.DB, {
+        await mongoose.connect(db, {
             useNewUrlParser: true,
             useFindAndModify: false,
             useUnifiedTopology: true,
         });
         console.log('Successfully connected to DB');
-        app.listen(PORT, () => {
-            console.log(`Express is listening at http://localhost:${PORT}`)
+        app.listen(port, () => {
+            console.log(`Express is listening at http://localhost:${port}`)
         });
     } catch(e) {
         console.log(e);
