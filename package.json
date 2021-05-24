@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon",
-    "postgres": "DB=pg DB_CONN_STRING=postgres://localhost:5432/nodeJs npm run start",
+    "postgres": "set DB=pg&&set DB_CONN_STRING=postgres://localhost:5432/nodeJs&&npm run start",
+    "mongo": "set DB=mongo&&set DB_CONN_STRING=mongoose://localhost:3000/nodeJs&&npm run start",
     "build": "tsc && node dist/server.js"
   },
   "repository": {

@@ -4,9 +4,9 @@ import path from "path";
 const isCompiled = path.extname(__filename).includes('js');
 
 export default {
-  type: process.env.DB,
+  type: 'postgres',
   host: "localhost",
-  port: process.env.PORT || 5432,
+  port: 5432,
   username: "postgres",
   password: process.env.POSTGRES_PASSWORD,
   database: "nodeJs",

@@ -10,8 +10,8 @@ export class Product {
     @Column('varchar', { length: 100, nullable: true })
     displayName!: string;
 
-    @Column()
-    categoryIds!: ObjectID[];
+    @Column("int", { array: true })
+    categoryIds!: number[];
 
     @Column({ type: "timestamptz", default: "now()" })
     createdAt:  Date = new Date();
