@@ -1,11 +1,8 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
-
-import { dbString } from '../config/config';
 
 export const connectToMongo = async (app, port: number) => {
     try {
-        await mongoose.connect(dbString, {
+        await mongoose.connect(process.env.DB_CONN_STRING, {
             useNewUrlParser: true,
             useFindAndModify: false,
             useUnifiedTopology: true,
@@ -15,6 +12,6 @@ export const connectToMongo = async (app, port: number) => {
             console.log(`Express is listening at http://localhost:${port}`)
         });
     } catch(e) {
-        console.log(e);
+        console.log('ERROR: Database connection failed!!', e);
     }
 }
