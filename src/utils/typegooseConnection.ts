@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-export const connectToMongo = async (app, port: number) => {
+export const connectToMongo = async (app) => {
     try {
         await mongoose.connect(process.env.DB_CONN_STRING, {
             useNewUrlParser: true,
@@ -8,8 +8,8 @@ export const connectToMongo = async (app, port: number) => {
             useUnifiedTopology: true,
         });
         console.log('Successfully connected to MongoDB');
-        app.listen(port, () => {
-            console.log(`Express is listening at http://localhost:${port}`)
+        app.listen(3000, () => {
+            console.log(`Express is listening at http://localhost:${3000}`)
         });
     } catch(e) {
         console.log('ERROR: Database connection failed!!', e);

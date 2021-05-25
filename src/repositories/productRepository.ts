@@ -1,3 +1,5 @@
+import { getCustomRepository } from "typeorm";
+
 import { ProductTypeOrmRepository } from './IProductTypeOrmRepository';
 import { ProductTypegooseRepository } from './IProductTypegooseRepository';
 
@@ -7,7 +9,7 @@ export class ProductRepository {
         if(process.env.DB === 'mongo') {
             return new ProductTypegooseRepository();
         } else {
-            return new ProductTypeOrmRepository();
+            return getCustomRepository(ProductTypeOrmRepository);
         }
       }
 }

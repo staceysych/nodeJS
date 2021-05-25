@@ -7,7 +7,7 @@ const categories = require('./categories');
 const app: Application = express();
 
 app.get('/', (req: Request, res: Response) => {
-    res.send(`Hello, ${process.env.USERNAME}! My name is Anastasiya Sych. It's my first server`)
+    res.send(`Hello, ${process.env.USERNAME}! My name is Anastasiya Sych. It's my first ${process.env.DB} server`)
 });
 
 app.use('/products', products);

@@ -1,3 +1,7 @@
+
+require('dotenv').config();
+
+import { psqlPassword } from './config/config';
 import {ConnectionOptions} from "typeorm";
 import path from "path";
 
@@ -8,7 +12,7 @@ export default {
   host: "localhost",
   port: 5432,
   username: "postgres",
-  password: process.env.POSTGRES_PASSWORD,
+  password: psqlPassword,
   database: "nodeJs",
   synchronize: true,
   logging: false,

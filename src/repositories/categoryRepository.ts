@@ -1,13 +1,14 @@
-import { CategoryTypegooseRepository } from './ICategoryTypegooseRepository';
-import { ProductTypeOrmRepository } from './IProductTypeOrmRepository';
+import { getCustomRepository } from "typeorm";
 
-type Class = { new(...args: any[]): any; };
+import { CategoryTypegooseRepository } from './ICategoryTypegooseRepository';
+import { CategoryTypeOrmRepository } from './ICategoryTypeOrmRepository';
+
 export class CategoryRepository {
     create() {
         if(process.env.DB === 'mongo') {
             return new CategoryTypegooseRepository();
         } else {
-           return new ProductTypeOrmRepository();
+           return getCustomRepository(CategoryTypeOrmRepository);
         }
       }
 }

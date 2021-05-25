@@ -1,5 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column, Index, getRepository, ObjectID} from "typeorm";
-
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany } from "typeorm";
+import { Category } from './CategoryTypeOrmSchema';
 @Entity({ name: 'product' })
 export class Product {
 
@@ -8,16 +8,17 @@ export class Product {
     @Index({unique: true})
 
     @Column('varchar', { length: 100, nullable: true })
-    displayName!: string;
+    display_name!: string;
 
     @Column("int", { array: true })
-    categoryIds!: number[];
+    @OneToMany(() => Category, category => category.id)
+    category_ids!: Category[];
 
-    @Column({ type: "timestamptz", default: "now()" })
-    createdAt:  Date = new Date();
+    @Column({ type: "timestamp", default: "now()" })
+    created_at:  Date = new Date();
 
     @Column()
-    totalRating!: number;
+    total_rating!: number;
 
     @Column()
     price!: number;
