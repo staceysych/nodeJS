@@ -2,6 +2,7 @@ import { Request, Response, Application } from 'express';
 
 const express = require('express');
 const products = require('./products');
+const categories = require('./categories');
 
 const app: Application = express();
 
@@ -10,5 +11,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/products', products);
+app.use('/categories', categories);
 
 module.exports = app;
