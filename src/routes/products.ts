@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { ProductService } from '../services';
+import { getSortCriteria } from '../utils/getSortCriteria';
 
 const { Router } = require('express');
 
@@ -8,38 +9,41 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response, next) => {
     try {
-        const data = await ProductService.getAllProducts();
+        let data: any;
+
+        if(Object.keys(req.query).length) {
+            if(req.query.displayName) {
+                const displayName = req.query.displayName as string;
+                data = await ProductService.getByDisplayName(displayName);
+            }
+
+            if(req.query.minRating) {
+                const rating = req.query.minRating as string;
+
+                if(req.query.sortBy) {
+                    const { field, direction } = getSortCriteria(req);
+
+                    data = await ProductService.getByRating(rating, field, direction);
+                } else {
+                    data = await ProductService.getByRating(rating);
+                }                
+            }
+
+            if(req.query.price) {
+                const price = req.query.price as string;
+
+                if(req.query.sortBy) {
+                    const { field, direction } = getSortCriteria(req);
+                    data = await ProductService.getByPrice(price, field, direction);
+                } else {
+                    data = await ProductService.getByPrice(price);
+                }
+                
+            }
+        } else {
+            data = await ProductService.getAllProducts();
+        }
         res.status(200).json(data);
-    } catch(e) {
-        res.status(500).send({ "err": e })
-    }
-});
-
-router.get('/displayName=:displayName', async (req: Request, res: Response, next) => {
-    try {
-        const data = await ProductService.getByDisplayName(req.params.displayName);
-        res.status(200).json(data);
-
-    } catch(e) {
-        res.status(500).send({ "err": e })
-    }
-});
-
-router.get('/minRating=:ratingValue', async (req: Request, res: Response, next) => {
-    try {
-        const data = await ProductService.getByRating(req.params.ratingValue);
-        res.status(200).json(data);
-
-    } catch(e) {
-        res.status(500).send({ "err": e })
-    }
-});
-
-router.get('/price=:priceParam', async (req: Request, res: Response, next) => {
-    try {
-        const data = await ProductService.getByPrice(req.params.priceParam);
-        res.status(200).json(data);
-
     } catch(e) {
         res.status(500).send({ "err": e })
     }

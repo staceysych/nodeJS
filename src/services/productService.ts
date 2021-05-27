@@ -21,20 +21,20 @@ export const getByDisplayName = async (displayName: string) => {
     }
 }
 
-export const getByRating = async (minRating: string) => {
+export const getByRating = async (minRating: string, field?: string, direction?: number) => {
     try {
         const repository = await new ProductRepository().create();
-        const data = await repository.getByMinRating(minRating);
+        const data = await repository.getByMinRating(minRating, field, direction);
         return data;
     } catch (error) {
         console.log(error)
     }
 }
 
-export const getByPrice = async (priceRange: string) => {
+export const getByPrice = async (priceRange: string, field?: string, direction?: number) => {
     try {
         const repository = await new ProductRepository().create();
-        const data = await repository.getByMinMaxPrice(priceRange);
+        const data = await repository.getByMinMaxPrice(priceRange, field, direction);
         return data;
     } catch (error) {
         console.log(error)
