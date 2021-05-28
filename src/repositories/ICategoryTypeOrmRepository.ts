@@ -7,4 +7,12 @@ export class CategoryTypeOrmRepository extends Repository<Category> {
     async getAll() {
         return await this.find({});
     }
+
+    async getById() {
+        /* return await this.find({}) */
+        }
+
+    async getByIdWithProducts() {
+        /* return await this.find({}) */
+        }
 }
