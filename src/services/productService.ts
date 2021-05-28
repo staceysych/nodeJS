@@ -1,10 +1,10 @@
 import { ProductRepository  } from '../repositories/productRepository';
 
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (limit = 0, skip = 0) => {
     try {
         const repository = await new ProductRepository().create();
-        const data = await repository.getAll();
+        const data = await repository.getAll(limit, skip);
         return data;
     } catch (error) {
         console.log(error)

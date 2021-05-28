@@ -10,6 +10,10 @@ const router = Router();
 router.get('/', async (req: Request, res: Response, next) => {
     try {
         let data: any;
+        const limit = parseInt(req.query.limit as string); 
+        const skip = parseInt(req.query.skip as string);
+
+        data = await ProductService.getAllProducts(limit, skip);
 
         if(Object.keys(req.query).length) {
             if(req.query.displayName) {
@@ -40,8 +44,6 @@ router.get('/', async (req: Request, res: Response, next) => {
                 }
                 
             }
-        } else {
-            data = await ProductService.getAllProducts();
         }
         res.status(200).json(data);
     } catch(e) {

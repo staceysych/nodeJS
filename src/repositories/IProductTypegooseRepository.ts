@@ -7,8 +7,8 @@ export class ProductTypegooseRepository {
     this.dataModel = Product;
   }
 
-  async getAll() {
-    return await this.dataModel.find({});
+  async getAll(limit = 0, skip = 0) {
+    return await this.dataModel.find({}).skip(skip).limit(limit);
     }
 
   async getByName(displayName: string) {
