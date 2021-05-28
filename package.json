@@ -5,6 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon",
+    "postgres": "set DB=pg&&set DB_CONN_STRING=postgres://localhost:5432/nodeJs&&npm run start",
+    "mongo": "set DB=mongo&&set DB_CONN_STRING=mongodb://localhost/nodeJs&&npm run start",
     "build": "tsc && node dist/server.js"
   },
   "repository": {
@@ -30,6 +32,8 @@
     "dotenv": "^9.0.2",
     "express": "^4.17.1",
     "mongoose": "^5.12.9",
-    "typegoose": "^5.9.1"
+    "pg": "^8.6.0",
+    "typegoose": "^5.9.1",
+    "typeorm": "^0.2.32"
   }
 }

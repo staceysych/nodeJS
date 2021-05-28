@@ -1,8 +1,9 @@
-import { getAll } from '../repositories/productRepository';
+import { ProductRepository  } from '../repositories/productRepository';
 
 export const getAllProducts = async () => {
     try {
-        const data = await getAll();
+        const repository = new ProductRepository().create();
+        const data = await repository.getAll();
         return data;
     } catch (error) {
         console.log(error)

@@ -1,5 +1,15 @@
-import { Product } from '../db/schemas';
+import { getCustomRepository } from "typeorm";
 
-export const getAll = async () => {
-  return (await Product.find({}));
-};
+import { ProductTypeOrmRepository } from './IProductTypeOrmRepository';
+import { ProductTypegooseRepository } from './IProductTypegooseRepository';
+
+type Class = { new(...args: any[]): any; };
+export class ProductRepository {
+    create() {
+        if(process.env.DB === 'mongo') {
+            return new ProductTypegooseRepository();
+        } else {
+            return getCustomRepository(ProductTypeOrmRepository);
+        }
+      }
+}
