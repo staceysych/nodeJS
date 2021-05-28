@@ -17,8 +17,8 @@ export const connectToTypeorm = async (app) => {
         await createConnection(ORMConfig);
       }
       console.log("🌴 Successfully connected to PostgreSQL");
-      app.listen(3000, () => {
-          console.log(`Express is listening at http://localhost:${3000}`)
+      app.listen(8080, () => {
+          console.log(`Express is listening at http://localhost:${8080}`)
       });
     } catch (e) {
       console.error('ERROR: Database connection failed!!', e);
