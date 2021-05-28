@@ -22,8 +22,8 @@ router.get('/:id', async (req: Request, res: Response, next) => {
     try {
         data = await CategoryService.getCategoryById(id);
 
-        if(req.query.includeProducts) {
-            data = await CategoryService.getCategoryByIdWithProducts(id, req.query.includeProducts as string)
+        if(req.query.includeProducts || req.query.includeTop3Products) {
+            data = await CategoryService.getCategoryByIdWithProducts(id, req.query.includeProducts as string, req.query.includeTop3Products as string)
         }
 
         res.status(200).json(data);
