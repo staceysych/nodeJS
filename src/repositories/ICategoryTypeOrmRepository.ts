@@ -8,11 +8,23 @@ export class CategoryTypeOrmRepository extends Repository<Category> {
         return await this.find({});
     }
 
-    async getById() {
-        /* return await this.find({}) */
+    async getById(id: any) {
+        return await this.find({"id": id})
         }
 
-    async getByIdWithProducts() {
-        /* return await this.find({}) */
+    async getByIdWithProducts(id: any, includeProducts = "false", includeTop3Products = "false") {
+            if(includeProducts === "true" || includeTop3Products === "true") {
+                const data = await this.createQueryBuilder("category")
+                .where("category.id = :id", { id: id })
+                .addSelect("category.products")
+                .getOne()
+
+                
+                if(data && includeTop3Products === "true") {
+                    data.products  = data?.products.sort((a, b) => b.total_rating - a.total_rating).slice(0, 3);
+                }
+                
+                return data;
+            }
         }
 }
