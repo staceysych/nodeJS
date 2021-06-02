@@ -1,4 +1,5 @@
 import { Request, Response, Application } from 'express';
+import { errorHandler } from '../utils/error-handler';
 
 const express = require('express');
 const products = require('./products');
@@ -12,5 +13,16 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/products', products);
 app.use('/categories', categories);
+
+app.use((req: Request, res: Response, next) => {
+    res.status(404).send({
+        error: {
+            status: 404,
+            message: 'Nothing was found',
+        },
+    });
+  });
+
+app.use(errorHandler);
 
 module.exports = app;
