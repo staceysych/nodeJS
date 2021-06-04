@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ApiError } from '../utils/ApiError';
 import { CategoryService } from '../services';
 
+const logger = require('../../logger');
 const { Router } = require('express');
 
 const router = Router();
@@ -10,6 +11,7 @@ router.get('/', async (req: Request, res: Response, next) => {
     try {
         const data = await CategoryService.getAllCategories();        
         res.status(200).json(data);
+        logger.debug(data);
     } catch(e) {
         next(e);
     }
@@ -37,6 +39,7 @@ router.get('/:id', async (req: Request, res: Response, next) => {
         }
 
         res.status(200).json(data);
+        logger.debug(data);
     } catch(e) {
         next(e);
     }

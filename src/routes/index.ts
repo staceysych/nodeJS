@@ -8,9 +8,8 @@ const logger = require('../../logger');
 
 const app: Application = express();
 
-app.use( (req, res, done) => {
+app.use( (req: Request, res: Response, done) => {
     logger.info(`Request: ${req.originalUrl} - ${req.method}. Response: status code - ${res.statusCode}`);
-    logger.debug();
     done();
 });
 
