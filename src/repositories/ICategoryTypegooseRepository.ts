@@ -1,3 +1,4 @@
+import { ObjectId, Types } from 'mongoose';
 import { Category } from '../db/schemas/CategoryTypegooseSchema';
 
 export class CategoryTypegooseRepository {
@@ -8,6 +9,58 @@ export class CategoryTypegooseRepository {
   }
 
   async getAll() {
-    return await this.dataModel.find({});
+    return this.dataModel.find({});
+    }
+
+  async getById(id: any) {
+    return this.dataModel.find({"_id": id});
+    }
+
+  async getByIdWithProducts(id: any, includeProducts: boolean, includeTop3Products: boolean) {
+    if (includeTop3Products) {
+      return this.dataModel.aggregate([
+        { $match: { _id: Types.ObjectId(id) } },
+        { $lookup:
+          {
+            from: 'products',
+            localField: '_id',
+            foreignField: 'categoryIds',
+            as: 'top3products'
+          }
+        },
+        {
+          $unwind: "$top3products"
+        },
+        {
+          $sort: {
+            "top3products.totalRating": -1
+          }
+        },
+        {$limit : 3},
+        {
+          $group: {
+            _id: "$_id",
+            displayName: { "$first": "$displayName" },
+            top3products: {
+              $push: "$top3products"
+            }
+          }
+        }
+      ]);
+    }
+
+    if (includeProducts) {
+      return this.dataModel.aggregate([
+        { $match: { _id: Types.ObjectId(id) } },
+        { $lookup:
+          {
+            from: 'products',
+            localField: '_id',
+            foreignField: 'categoryIds',
+            as: 'products'
+          }
+        }
+      ]);
+    }
     }
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, ManyToOne } from "typeorm";
 import { Category } from './CategoryTypeOrmSchema';
 @Entity({ name: 'product' })
 export class Product {
