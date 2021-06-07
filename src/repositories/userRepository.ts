@@ -5,7 +5,7 @@ export class UserRepository {
         if(process.env.DB === 'mongo') {
             return new UserTypegooseRepository();
         } else {
-           
+            return new UserTypegooseRepository();
         }
       }
 }

@@ -4,9 +4,15 @@ import { errorHandler } from '../utils/error-handler';
 const express = require('express');
 const products = require('./products');
 const categories = require('./categories');
+const users = require('./users');
 const logger = require('../../logger');
+const bodyParser = require("body-parser");
+require("../passport/passport");
 
 const app: Application = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use( (req: Request, res: Response, done) => {
     logger.info(`Request: ${req.originalUrl} - ${req.method}. Response: status code - ${res.statusCode}`);
@@ -19,6 +25,7 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/products', products);
 app.use('/categories', categories);
+app.use('/users', users);
 
 app.use((req: Request, res: Response, next) => {
     logger.error(`status: 404, message: Nothing was found for this request ${req.originalUrl}`);

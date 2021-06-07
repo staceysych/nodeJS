@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { ApiError } from '../utils/ApiError';
 import { CategoryService } from '../services';
 
 const logger = require('../../logger');

@@ -1,6 +1,6 @@
 import { User } from '../../db/schemas/typegooseSchemas/UserTypegooseSchema';
 
-import { IUser } from '../../interfaces';
+const bcrypt = require('bcrypt');
 
 export class UserTypegooseRepository {
   public dataModel;
@@ -9,8 +9,13 @@ export class UserTypegooseRepository {
     this.dataModel = User;
   }
 
-  async create(user: IUser) {
-    const newcomer = new User(user);
-    await newcomer.save();
+  async getAll() {
+    return this.dataModel.find({});
+  }
+
+  async create(username: string, password: string) {
+    const data = { username, password: await bcrypt.hash(password, 12),
+    };
+    return new User(data).save();
   };
 }
