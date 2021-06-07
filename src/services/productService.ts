@@ -1,3 +1,4 @@
+import { ApiError } from '../utils/ApiError';
 import { ProductRepository  } from '../repositories/productRepository';
 
 
@@ -7,7 +8,7 @@ export const getAllProducts = async (limit = 0, skip = 0) => {
         const data = await repository.getAll(limit, skip);
         return data;
     } catch (error) {
-        console.log(error)
+        ApiError.badRequest(error);
     }
 };
 
