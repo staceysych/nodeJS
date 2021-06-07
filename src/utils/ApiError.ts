@@ -23,4 +23,8 @@ export class ApiError extends Error {
     static conflict(msg) {
         return new ApiError(409, msg);
     }
+
+    static forbidden(msg) {
+        return new ApiError(403, msg);
+    }
 }
