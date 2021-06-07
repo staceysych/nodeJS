@@ -1,7 +1,7 @@
 import { getCustomRepository } from "typeorm";
 
-import { CategoryTypegooseRepository } from './ICategoryTypegooseRepository';
-import { CategoryTypeOrmRepository } from './ICategoryTypeOrmRepository';
+import { CategoryTypegooseRepository } from './typegooseRepositories/ICategoryTypegooseRepository';
+import { CategoryTypeOrmRepository } from './typeormRepositories/ICategoryTypeOrmRepository';
 
 export class CategoryRepository {
     create() {

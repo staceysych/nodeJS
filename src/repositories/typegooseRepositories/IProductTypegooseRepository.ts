@@ -1,4 +1,4 @@
-import { Product } from '../db/schemas/ProductTypegooseSchema';
+import { Product } from '../../db/schemas/typegooseSchemas/ProductTypegooseSchema';
 
 export class ProductTypegooseRepository {
   public dataModel;

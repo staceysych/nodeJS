@@ -1,5 +1,5 @@
 import { Between, EntityRepository, LessThan, MoreThan, MoreThanOrEqual, Repository } from "typeorm";
-import { Product } from "../db/schemas/ProductTypeOrmSchema";
+import { Product } from "../../db/schemas/typeormSchemas/ProductTypeOrmSchema";
 
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {

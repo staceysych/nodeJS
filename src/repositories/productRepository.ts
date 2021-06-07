@@ -1,7 +1,7 @@
 import { getCustomRepository } from "typeorm";
 
-import { ProductTypeOrmRepository } from './IProductTypeOrmRepository';
-import { ProductTypegooseRepository } from './IProductTypegooseRepository';
+import { ProductTypeOrmRepository } from './typeormRepositories/IProductTypeOrmRepository';
+import { ProductTypegooseRepository } from './typegooseRepositories/IProductTypegooseRepository';
 
 export class ProductRepository {
     async create() {

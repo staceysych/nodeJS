@@ -19,4 +19,8 @@ export class ApiError extends Error {
     static serverError(msg) {
         return new ApiError(500, msg);
     }
+
+    static conflict(msg) {
+        return new ApiError(409, msg);
+    }
 }
