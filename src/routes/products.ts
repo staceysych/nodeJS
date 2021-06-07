@@ -3,6 +3,7 @@ import { ApiError } from '../utils/ApiError';
 import { ProductService } from '../services';
 import { getSortCriteria } from '../utils/getSortCriteria';
 
+const logger = require('../../logger');
 const { Router } = require('express');
 
 
@@ -73,6 +74,7 @@ router.get('/', async (req: Request, res: Response, next) => {
         }
     
         res.status(200).json(data);
+        logger.debug(data);
     } catch(e) {
         next(e);
     }
