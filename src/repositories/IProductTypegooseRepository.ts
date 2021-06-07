@@ -1,4 +1,5 @@
 import { Product } from '../db/schemas/ProductTypegooseSchema';
+import { SORT_DIRECTION } from '../utils/constants';
 
 export class ProductTypegooseRepository {
   public dataModel;
@@ -8,19 +9,19 @@ export class ProductTypegooseRepository {
   }
 
   async getAll(limit = 0, skip = 0) {
-    return await this.dataModel.find({}).skip(skip).limit(limit);
+    return this.dataModel.find({}).skip(skip).limit(limit);
     }
 
   async getByName(displayName: string) {
-    return await this.dataModel.find({ displayName: new RegExp(displayName, "i") });
+    return this.dataModel.find({ displayName: new RegExp(displayName, "i") });
     }
 
-  async getByMinRating(minRating: string, field?: string, direction?: number) {
+  async getByMinRating(minRating: number, field?: string, direction?: number) {
     const sortField = field as string;
     const defaultField = 'displayName';
     const defaultDirection = 1;
 
-    return await this.dataModel.find({ totalRating: { $gte: minRating } }).sort({[sortField || defaultField]: direction || defaultDirection});
+    return this.dataModel.find({ totalRating: { $gte: minRating } }).sort({[sortField || defaultField]: direction || defaultDirection});
     }
 
   async getByMinMaxPrice(priceParam: string, field?: string, direction?: number) {
@@ -35,7 +36,7 @@ export class ProductTypegooseRepository {
   }
 
   async sortByFieldAndDirection(data: any, field: string, direction: string) {
-    const dir = direction === 'asc' ? 1 : -1;
-    return await data.find({ $orderby: { [field] : dir }});
+    const dir = direction === SORT_DIRECTION[0].toLocaleLowerCase() ? 1 : -1;
+    return data.find({ $orderby: { [field] : dir }});
   }
 }

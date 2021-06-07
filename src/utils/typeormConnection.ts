@@ -9,8 +9,8 @@ export const connectToTypeorm = async (app) => {
     }
   
     try {
-      if (connection) {
-        if (!connection.isConnected) {
+      if  (connection) {
+        if  (!connection.isConnected) {
           await connection.connect();
         }
       } else {

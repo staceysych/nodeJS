@@ -9,16 +9,16 @@ export class CategoryTypegooseRepository {
   }
 
   async getAll() {
-    return await this.dataModel.find({});
+    return this.dataModel.find({});
     }
 
   async getById(id: any) {
-    return await this.dataModel.find({"_id": id});
+    return this.dataModel.find({"_id": id});
     }
 
-  async getByIdWithProducts(id: any, includeProducts = "false", includeTop3Products = "false") {
-    if(includeTop3Products === "true") {
-      return await this.dataModel.aggregate([
+  async getByIdWithProducts(id: any, includeProducts: boolean, includeTop3Products: boolean) {
+    if (includeTop3Products) {
+      return this.dataModel.aggregate([
         { $match: { _id: Types.ObjectId(id) } },
         { $lookup:
           {
@@ -49,8 +49,8 @@ export class CategoryTypegooseRepository {
       ]);
     }
 
-    if(includeProducts === "true") {
-      return await this.dataModel.aggregate([
+    if (includeProducts) {
+      return this.dataModel.aggregate([
         { $match: { _id: Types.ObjectId(id) } },
         { $lookup:
           {
