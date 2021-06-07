@@ -22,7 +22,7 @@ export const getByDisplayName = async (displayName: string) => {
     }
 }
 
-export const getByRating = async (minRating: string, field?: string, direction?: number) => {
+export const getByRating = async (minRating: number, field?: string, direction?: number) => {
     try {
         const repository = await new ProductRepository().create();
         const data = await repository.getByMinRating(minRating, field, direction);

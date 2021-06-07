@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongoose';
 import { CategoryRepository  } from '../repositories/categoryRepository';
 
 export const getAllCategories = async () => {
@@ -21,7 +20,7 @@ export const getCategoryById = async (id: any) => {
     }
 }
 
-export const getCategoryByIdWithProducts = async (id: any, includeProducts = "false", includeTop3Products = "false") => {
+export const getCategoryByIdWithProducts = async (id: any, includeProducts: boolean, includeTop3Products: boolean) => {
     try {
         const repository = new CategoryRepository().create();
         const data = await repository.getByIdWithProducts(id, includeProducts, includeTop3Products);

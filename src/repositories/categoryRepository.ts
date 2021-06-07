@@ -5,7 +5,7 @@ import { CategoryTypeOrmRepository } from './typeormRepositories/ICategoryTypeOr
 
 export class CategoryRepository {
     create() {
-        if(process.env.DB === 'mongo') {
+        if (process.env.DB === 'mongo') {
             return new CategoryTypegooseRepository();
         } else {
            return getCustomRepository(CategoryTypeOrmRepository);
