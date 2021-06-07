@@ -5,10 +5,10 @@ import { ProductTypegooseRepository } from './IProductTypegooseRepository';
 
 export class ProductRepository {
     async create() {
-        if(process.env.DB === 'mongo') {
+        if (process.env.DB === 'mongo') {
             return new ProductTypegooseRepository();
         } else {
-            return await getCustomRepository(ProductTypeOrmRepository);
+            return getCustomRepository(ProductTypeOrmRepository);
         }
       }
 }

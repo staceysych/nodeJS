@@ -22,18 +22,11 @@ router.get('/:id', async (req: Request, res: Response, next) => {
     try {
         data = await CategoryService.getCategoryById(id);
 
-        if(req.query.includeProducts || req.query.includeTop3Products) {
-            data = await CategoryService.getCategoryByIdWithProducts(id, req.query.includeProducts as string, req.query.includeTop3Products as string);
+        if (req.query.includeProducts || req.query.includeTop3Products) {
+            const includeProducts = req.query.includeProducts && JSON.parse(req.query.includeProducts as string);
+            const includeTop3Products = req.query.includeTop3Products && JSON.parse(req.query.includeTop3Products as string);
 
-            if(!data) {
-                next(ApiError.badRequest('Bad request. Your request should be the following format: id?includeProducts=true&includeTop3Products=true'));
-                return;
-            }
-        }
-
-        if(!data) {
-            next(ApiError.notFound(`Nothing was found for this ID - ${req.params.id}`));
-            return;
+            data = await CategoryService.getCategoryByIdWithProducts(id, includeProducts, includeTop3Products)
         }
 
         res.status(200).json(data);

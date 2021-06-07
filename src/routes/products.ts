@@ -15,9 +15,9 @@ router.get('/', async (req: Request, res: Response, next) => {
         const skip = parseInt(req.query.skip as string);
     
         data = await ProductService.getAllProducts(limit, skip);
-    
-        if(Object.keys(req.query).length) {
-            if(req.query.displayName) {
+
+        if (Object.keys(req.query).length) {
+            if (req.query.displayName) {
                 const displayName = req.query.displayName as string;
                 data = await ProductService.getByDisplayName(displayName);
                 
@@ -26,11 +26,11 @@ router.get('/', async (req: Request, res: Response, next) => {
                     return;
                 }
             }
-    
-            if(req.query.minRating) {
-                const rating = req.query.minRating as string;
-    
-                if(req.query.sortBy) {
+
+            if (req.query.minRating) {
+                const rating = parseInt(req.query.minRating as string);
+
+                if (req.query.sortBy) {
                     const { field, direction } = getSortCriteria(req);
     
                     data = await ProductService.getByRating(rating, field, direction);
@@ -48,11 +48,11 @@ router.get('/', async (req: Request, res: Response, next) => {
                     return;
                 }
             }
-    
-            if(req.query.price) {
+
+            if (req.query.price) {
                 const price = req.query.price as string;
-    
-                if(req.query.sortBy) {
+
+                if (req.query.sortBy) {
                     const { field, direction } = getSortCriteria(req);
                     data = await ProductService.getByPrice(price, field, direction);
                 } else {
