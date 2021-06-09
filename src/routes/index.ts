@@ -7,12 +7,16 @@ const categories = require('./categories');
 const users = require('./users');
 const logger = require('../../logger');
 const bodyParser = require("body-parser");
-require("../passport/passport");
+const passport = require("passport");
+const initializePassport = require("../passport/passport");
 
 const app: Application = express();
+initializePassport(passport);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
 
 app.use( (req: Request, res: Response, done) => {
     logger.info(`Request: ${req.originalUrl} - ${req.method}. Response: status code - ${res.statusCode}`);

@@ -1,21 +1,23 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { ApiError } from '../utils/ApiError';
+import { ApiError, getToken } from '../utils';
 import { UserService } from '../services';
 import { User } from '../db/schemas/typegooseSchemas/UserTypegooseSchema';
-import { PASSWORD_REGEX, USERNAME_REGEX, USER_ALREADY_EXISTS, INVALID_USER_DATA } from '../utils/constants';
+import { PASSWORD_REGEX, USERNAME_REGEX, USER_ALREADY_EXISTS, INVALID_USER_DATA, USER_DOES_NOT_EXIST } from '../utils/constants';
+import { login } from '../passport/passportMiddleware';
 
 import { jwtSecret } from '../config/config';
 
 const logger = require('../../logger');
 const { Router } = require('express');
 const bcrypt = require('bcrypt');
+const passport = require("passport");
 
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response, next) => {
+router.get('/', async (req: Request, res: Response, next: any) => {
     try {
         const data = await UserService.getAllUsers();        
         res.status(200).json(data);
@@ -38,10 +40,8 @@ router.post('/register', async (req: Request, res: Response, next) => {
             await UserService.register(username, password); 
 
             const newUser = await User.findOne({ username });
-            const token = jwt.sign({ username }, jwtSecret, {
-                expiresIn: 10000000,
-              });
-              const userToReturn = { ...newUser?.toJSON(), ...{ token } };
+            const token = getToken({ username });
+            const userToReturn = { ...newUser?.toJSON(), ...{ token } };
       
               res.status(200).json(userToReturn);
         } else {
@@ -52,5 +52,7 @@ router.post('/register', async (req: Request, res: Response, next) => {
         next(e);
     }
 });
+
+router.post('/authenticate', login);
 
 module.exports = router;

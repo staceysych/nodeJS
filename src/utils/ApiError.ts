@@ -27,4 +27,8 @@ export class ApiError extends Error {
     static forbidden(msg) {
         return new ApiError(403, msg);
     }
+
+    static unauthorized(msg) {
+        return new ApiError(401, msg);
+    }
 }
