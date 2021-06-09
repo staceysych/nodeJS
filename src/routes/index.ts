@@ -16,8 +16,6 @@ initializePassport(passport);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(passport.initialize());
-
 app.use( (req: Request, res: Response, done) => {
     logger.info(`Request: ${req.originalUrl} - ${req.method}. Response: status code - ${res.statusCode}`);
     done();

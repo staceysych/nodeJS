@@ -9,7 +9,6 @@ const initialize = (passport) => {
   const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: jwtSecret,
-    passReqToCallback : true
   };
 
   const verifyToken = async (jwtPayload, done) => {
@@ -21,24 +20,24 @@ const initialize = (passport) => {
     }
   };
 
-  const authenticateUser = async (jwtPayload, done) => {
-    const user = await User.findOne({ username: jwtPayload.username });
+  const authenticateUser = async (username, password, done) => {
+    const user = await User.findOne({ username: username });
     if (!user) {
-      done(null, false);
+      return done(null, false);
     }
 
     try {
-      if (await bcrypt.compare(jwtPayload.password, user?.password)) {
+      if (await bcrypt.compare(password, user?.password)) {
         return done(null, user)
       } else {
-        done(null, false);
+        return done(null, false);
       }
     } catch (e) {
       return done(e)
     }
   }
 
-  passport.use(new LocalStrategy({ usernameField: 'username', passwordField: 'password', passReqToCallback: true }, authenticateUser));
+  passport.use(new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, authenticateUser));
   passport.use(new StrategyJwt(jwtOptions, verifyToken));
 }
 
