@@ -12,12 +12,13 @@ const initialize = (passport) => {
   };
 
   const verifyToken = async (jwtPayload, done) => {
-    try {
-      const user = await User.findOne({ username: jwtPayload.username });
-      return done(null, user);
-    } catch(e) {
-      return done(e);
-    }
+    const user = await User.findOne({ username: jwtPayload.username });
+      console.log(jwtPayload);
+      if(!user) {
+        return done(null, false);
+      } else {
+        return done(null, user)
+      }
   };
 
   const authenticateUser = async (username, password, done) => {
