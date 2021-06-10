@@ -12,11 +12,20 @@ export const getAllUsers = async () => {
 };
 
 
-export const register = async (username: string, password: string) => {
+export const register = async (username: string, password: string, firstName?: string, lastName?: string) => {
     try {
         const repository = await new UserRepository().init();
-        return repository.create(username, password);
+        return repository.create(username, password, firstName, lastName);
     } catch (error) {
         ApiError.conflict(error);
     }
 };
+
+export const updateUserProfile = async (username: string, userData: any) => {
+    try {
+    const repository = await new UserRepository().init();
+    return repository.update(username, userData);
+    } catch (error) {
+      console.log(error)
+    }
+  };

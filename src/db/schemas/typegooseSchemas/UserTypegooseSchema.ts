@@ -6,6 +6,12 @@ class UserClass {
 
     @prop({ required: true })
     public password!: string;
+
+    @prop()
+    public firstName?: string;
+
+    @prop()
+    public lastName?: string;
 }
 
 const User = getModelForClass(UserClass, { schemaOptions: { collection: "users" }});
