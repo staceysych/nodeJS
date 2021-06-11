@@ -14,7 +14,7 @@ export const jwtConfig = {
     tokens: {
         access: {
             type: 'access',
-            expiresIn: '1m'
+            expiresIn: '2m'
         },
         refresh: {
             type: 'refresh',

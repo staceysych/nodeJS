@@ -7,8 +7,9 @@ import { User } from '../db/schemas/typegooseSchemas/UserTypegooseSchema';
 
 import { UserService } from '../services';
 
-import { PASSWORD_REGEX, USERNAME_REGEX, USER_ALREADY_EXISTS, INVALID_USER_DATA, USER_IS_NOT_AUTHORIZED, USER_DOES_NOT_EXIST } from '../utils/constants';
+import { PASSWORD_REGEX, USERNAME_REGEX, USER_ALREADY_EXISTS, INVALID_USER_DATA, USER_IS_NOT_AUTHORIZED, USER_DOES_NOT_EXIST, PASSWORDS_DO_NOT_MATCH } from '../utils/constants';
 import { refreshTokens, generateAccessToken, generateRefreshToken } from '../utils/authHelpers';
+import { comparePasswords } from '../utils/passwordHelpers';
 import { ApiError } from '../utils';
 
 const logger = require('../../logger');
@@ -25,7 +26,8 @@ export const renewAccessToken = (req: Request, res: Response, next) => {
                 next(ApiError.forbidden(USER_IS_NOT_AUTHORIZED));
               } else {
                   const accessToken = generateAccessToken(user.username);
-                  return res.status(201).json({ accessToken });
+                  const refreshToken = generateRefreshToken();
+                  return res.status(201).json({ accessToken, refreshToken: refreshToken.token });
               }
         })
     }
@@ -39,7 +41,7 @@ export const signUp = async (req: Request, res: Response, next) => {
             return;
         }
         const user = await User.findOne({ username });
-
+        
         if (!user) {
             await UserService.register(username, password, firstName, lastName); 
 
@@ -69,11 +71,43 @@ export const getUsers = async (req: Request, res: Response, next: any) => {
     }
 }
 
-export const updateUserData = async (req: Request, res: Response, next: any) => {
+export const updateUserProfile = async (req: Request, res: Response, next: any) => {
     try {
         const { username } = req.body;
-        await UserService.updateUserProfile(username, req.body);
-        const updatedProfile = await User.findOne({ username });      
+        await UserService.updateProfile(username, req.body);
+        const updatedProfile = await User.findOne({ username }); 
+             
+        if(!updatedProfile) {
+            next(ApiError.notFound(USER_DOES_NOT_EXIST));
+            return;
+        }
+
+        res.status(200).json(updatedProfile);
+        logger.debug(updatedProfile);
+    } catch(e) {
+        next(e);
+    }
+}
+
+export const updateUserPassword = async (req: Request, res: Response, next: any) => {
+    try {
+        const { username, password, newPassword } = req.body;
+
+        const user = await User.findOne({ username }); 
+        if(!user) {
+            next(ApiError.notFound(USER_DOES_NOT_EXIST));
+            return;
+        }
+
+        const isPasswordMatched = await comparePasswords(password, user);
+
+        if(!isPasswordMatched) {
+            next(ApiError.badRequest(PASSWORDS_DO_NOT_MATCH));
+            return;
+        }
+
+        await UserService.updatePassword(username, newPassword);
+        const updatedProfile = await User.findOne({ username }); 
 
         res.status(200).json(updatedProfile);
         logger.debug(updatedProfile);

@@ -1,5 +1,5 @@
 import { verifyToken } from '../utils/authHelpers';
-import { renewAccessToken, signUp, getUsers, updateUserData } from '../controllers/userController';
+import { renewAccessToken, signUp, getUsers, updateUserProfile, updateUserPassword } from '../controllers/userController';
 import { login } from '../passport/passportMiddleware';
 
 const { Router } = require('express');
@@ -14,6 +14,8 @@ router.post('/authenticate', login);
 
 router.post('/token', renewAccessToken);
 
-router.put('/profile', verifyToken, updateUserData);
+router.put('/profile', verifyToken, updateUserProfile);
+
+router.post('/profile/password', verifyToken, updateUserPassword);
 
 module.exports = router;

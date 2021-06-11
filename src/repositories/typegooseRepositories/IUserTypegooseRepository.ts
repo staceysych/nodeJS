@@ -1,6 +1,6 @@
 import { User } from '../../db/schemas/typegooseSchemas/UserTypegooseSchema';
 
-const bcrypt = require('bcrypt');
+import { hashPassword } from '../../utils/passwordHelpers';
 
 export class UserTypegooseRepository {
   public dataModel;
@@ -14,12 +14,16 @@ export class UserTypegooseRepository {
   }
 
   async create(username: string, password: string, firstName?: string, lastName?: string) {
-    const data = { username, password: await bcrypt.hash(password, 12), firstName, lastName,
+    const data = { username, password: await hashPassword(password), firstName: firstName || '', lastName: lastName || '',
     };
     return new User(data).save();
   };
 
   async update(username: string, payload: any) {
       return this.dataModel.findOneAndUpdate({ username }, payload);
+  };
+
+  async updatePassword(username: string, newPassword: string) {
+      return this.dataModel.findOneAndUpdate({ username }, { password: await hashPassword(newPassword) });
   };
 }

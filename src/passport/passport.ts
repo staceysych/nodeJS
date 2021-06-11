@@ -1,9 +1,9 @@
 import { ExtractJwt, Strategy as StrategyJwt } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
+
 import { User } from '../db/schemas/typegooseSchemas/UserTypegooseSchema';
 import { jwtSecret } from '../config/config';
-
-const bcrypt = require('bcrypt')
+import { comparePasswords } from '../utils/passwordHelpers';
 
 const initialize = (passport) => {
   const jwtOptions = {
@@ -28,7 +28,8 @@ const initialize = (passport) => {
     }
 
     try {
-      if (await bcrypt.compare(password, user?.password)) {
+      const isPasswordMatched = await comparePasswords(password, user);
+      if (isPasswordMatched) {
         return done(null, user)
       } else {
         return done(null, false);

@@ -1,6 +1,6 @@
 import { ApiError } from '../utils/ApiError';
 import { UserRepository  } from '../repositories/userRepository';
-import { IUser } from '../interfaces';
+import { AnyARecord } from 'dns';
 
 export const getAllUsers = async () => {
     try {
@@ -21,10 +21,19 @@ export const register = async (username: string, password: string, firstName?: s
     }
 };
 
-export const updateUserProfile = async (username: string, userData: any) => {
+export const updateProfile = async (username: string, userData: any) => {
     try {
     const repository = await new UserRepository().init();
     return repository.update(username, userData);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+export const updatePassword = async (username: string, newPassword: string) => {
+    try {
+    const repository = await new UserRepository().init();
+    return repository.updatePassword(username, newPassword);
     } catch (error) {
       console.log(error)
     }
