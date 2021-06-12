@@ -3,8 +3,6 @@ import { Request, Response } from 'express';
 
 import { jwtConfig } from '../config/config';
 
-import { User } from '../db/schemas/typegooseSchemas/UserTypegooseSchema';
-
 import { UserService } from '../services';
 
 import { PASSWORD_REGEX, USERNAME_REGEX, USER_ALREADY_EXISTS, INVALID_USER_DATA, USER_IS_NOT_AUTHORIZED, USER_DOES_NOT_EXIST, PASSWORDS_DO_NOT_MATCH } from '../utils/constants';
@@ -40,18 +38,15 @@ export const signUp = async (req: Request, res: Response, next) => {
             next(ApiError.badRequest(INVALID_USER_DATA));
             return;
         }
-        const user = await User.findOne({ username });
-        
-        if (!user) {
+        const user = await UserService.getOneUser(username);
+        if (!user || !user.length) {
             await UserService.register(username, password, firstName, lastName); 
-
-            const newUser = await User.findOne({ username });
+            const newUser = await UserService.getOneUser(username);
             const token = generateAccessToken(username);
             const refreshToken = generateRefreshToken().token;
-            const userToReturn = { ...newUser?.toJSON(), ...{ token, refreshToken } };
-      
+            const userToReturn = { token, refreshToken };
               res.status(200).json(userToReturn);
-              logger.debug(newUser);
+              logger.debug(newUser.toJSON());
         } else {
             next(ApiError.forbidden(USER_ALREADY_EXISTS));
             return;
@@ -75,7 +70,7 @@ export const updateUserProfile = async (req: Request, res: Response, next: any) 
     try {
         const { username } = req.body;
         await UserService.updateProfile(username, req.body);
-        const updatedProfile = await User.findOne({ username }); 
+        const updatedProfile = await UserService.getOneUser(username); 
              
         if(!updatedProfile) {
             next(ApiError.notFound(USER_DOES_NOT_EXIST));
@@ -83,7 +78,6 @@ export const updateUserProfile = async (req: Request, res: Response, next: any) 
         }
 
         res.status(200).json(updatedProfile);
-        logger.debug(updatedProfile);
     } catch(e) {
         next(e);
     }
@@ -93,7 +87,7 @@ export const updateUserPassword = async (req: Request, res: Response, next: any)
     try {
         const { username, password, newPassword } = req.body;
 
-        const user = await User.findOne({ username }); 
+        const user = await UserService.getOneUser(username); 
         if(!user) {
             next(ApiError.notFound(USER_DOES_NOT_EXIST));
             return;
@@ -107,10 +101,9 @@ export const updateUserPassword = async (req: Request, res: Response, next: any)
         }
 
         await UserService.updatePassword(username, newPassword);
-        const updatedProfile = await User.findOne({ username }); 
+        const updatedProfile = await UserService.getOneUser(username); 
 
         res.status(200).json(updatedProfile);
-        logger.debug(updatedProfile);
     } catch(e) {
         next(e);
     }

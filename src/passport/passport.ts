@@ -1,9 +1,10 @@
 import { ExtractJwt, Strategy as StrategyJwt } from 'passport-jwt';
 import { Strategy as LocalStrategy } from 'passport-local';
 
-import { User } from '../db/schemas/typegooseSchemas/UserTypegooseSchema';
 import { jwtSecret } from '../config/config';
 import { comparePasswords } from '../utils/passwordHelpers';
+
+import { UserService } from '../services';
 
 const initialize = (passport) => {
   const jwtOptions = {
@@ -12,8 +13,7 @@ const initialize = (passport) => {
   };
 
   const verifyToken = async (jwtPayload, done) => {
-    const user = await User.findOne({ username: jwtPayload.username });
-      console.log(jwtPayload);
+    const user = await UserService.getOneUser(jwtPayload.username);
       if(!user) {
         return done(null, false);
       } else {
@@ -22,8 +22,8 @@ const initialize = (passport) => {
   };
 
   const authenticateUser = async (username, password, done) => {
-    const user = await User.findOne({ username: username });
-    if (!user) {
+    const user = await UserService.getOneUser(username);
+    if (!user || !user.length) {
       return done(null, false);
     }
 

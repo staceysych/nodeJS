@@ -9,11 +9,15 @@ export class UserTypegooseRepository {
     this.dataModel = User;
   }
 
+  async getOne(username: string) {
+    return this.dataModel.findOne({ username });
+  }
+
   async getAll() {
     return this.dataModel.find({});
   }
 
-  async create(username: string, password: string, firstName?: string, lastName?: string) {
+  async createUser(username: string, password: string, firstName?: string, lastName?: string) {
     const data = { username, password: await hashPassword(password), firstName: firstName || '', lastName: lastName || '',
     };
     return new User(data).save();

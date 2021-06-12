@@ -1,6 +1,15 @@
 import { ApiError } from '../utils/ApiError';
 import { UserRepository  } from '../repositories/userRepository';
-import { AnyARecord } from 'dns';
+
+
+export const getOneUser = async (username: string) => {
+    try {
+        const repository = new UserRepository().init();
+        return repository.getOne(username);
+    } catch (error) {
+        console.log(error)
+    }
+};
 
 export const getAllUsers = async () => {
     try {
@@ -15,7 +24,7 @@ export const getAllUsers = async () => {
 export const register = async (username: string, password: string, firstName?: string, lastName?: string) => {
     try {
         const repository = await new UserRepository().init();
-        return repository.create(username, password, firstName, lastName);
+        return repository.createUser(username, password, firstName, lastName);
     } catch (error) {
         ApiError.conflict(error);
     }

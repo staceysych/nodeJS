@@ -28,6 +28,6 @@ export const login = async (req: Request, res: Response, next: any) => {
             "refreshToken": refreshToken,
         }
 
-        return res.status(200).json({ ...user.toJSON(), ...response });
+        return res.status(200).json(response);
     })(req, res, next);
   };
