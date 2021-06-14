@@ -1,5 +1,5 @@
 import { ObjectId, Types } from 'mongoose';
-import { Category } from '../db/schemas/CategoryTypegooseSchema';
+import { Category } from '../../db/schemas/typegooseSchemas/CategoryTypegooseSchema';
 
 export class CategoryTypegooseRepository {
   public dataModel;

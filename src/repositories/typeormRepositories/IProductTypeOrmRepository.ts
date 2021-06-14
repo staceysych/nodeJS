@@ -1,7 +1,7 @@
 import { Between, EntityRepository, MoreThanOrEqual, Repository } from "typeorm";
-import { Product } from "../db/schemas/ProductTypeOrmSchema";
+import { Product } from "../../db/schemas/typeormSchemas/ProductTypeOrmSchema";
 
-import { SORT_DIRECTION } from '../utils/constants';
+import { SORT_DIRECTION } from '../../utils/constants';
 
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {

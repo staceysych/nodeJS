@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Category } from "../db/schemas/CategoryTypeOrmSchema";
+import { Category } from "../../db/schemas/typeormSchemas/CategoryTypeOrmSchema";
 
 @EntityRepository(Category)
 export class CategoryTypeOrmRepository extends Repository<Category> {

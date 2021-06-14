@@ -1,5 +1,5 @@
-import { Product } from '../db/schemas/ProductTypegooseSchema';
-import { SORT_DIRECTION } from '../utils/constants';
+import { Product } from '../../db/schemas/typegooseSchemas/ProductTypegooseSchema';
+import { SORT_DIRECTION } from '../../utils/constants';
 
 export class ProductTypegooseRepository {
   public dataModel;
