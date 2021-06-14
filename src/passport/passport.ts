@@ -23,7 +23,8 @@ const initialize = (passport) => {
 
   const authenticateUser = async (username, password, done) => {
     const user = await UserService.getOneUser(username);
-    if (!user || !user.length) {
+    const isUser = process.env.DB === 'pg' ? user.length :  user;
+    if (!isUser) {
       return done(null, false);
     }
 
