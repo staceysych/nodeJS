@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { CategoryService } from '../services';
 
+import { POSTGRES_DB } from '../utils/constants';
+
 const { Router } = require('express');
 const logger = require('../../logger');
 
@@ -10,7 +12,8 @@ router.get('/', async (req: Request, res: Response, next) => {
   try {
     const data = await CategoryService.getAllCategories();
     res.status(200).json(data);
-    logger.debug(data);
+    const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
+    logger.debug(convertedData);
   } catch (e) {
     next(e);
   }
@@ -31,7 +34,8 @@ router.get('/:id', async (req: Request, res: Response, next) => {
     }
 
     res.status(200).json(data);
-    logger.debug(data);
+    const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
+    logger.debug(convertedData);
   } catch (e) {
     next(e);
   }

@@ -9,3 +9,4 @@ export const USER_IS_NOT_AUTHORIZED = 'User is not authorized';
 export const AUTH_ERROR = 'Authentication error, something is not right';
 export const INCORRECT_CREDENTIALS = 'Incorrect username or password';
 export const PASSWORDS_DO_NOT_MATCH = ' Passwords do not match';
+export const POSTGRES_DB = 'pg';

@@ -13,6 +13,7 @@ import {
   USER_IS_NOT_AUTHORIZED,
   USER_DOES_NOT_EXIST,
   PASSWORDS_DO_NOT_MATCH,
+  POSTGRES_DB,
 } from '../utils/constants';
 import { refreshTokens, generateAccessToken, generateRefreshToken } from '../utils/authHelpers';
 import { comparePasswords } from '../utils/passwordHelpers';
@@ -47,7 +48,7 @@ export const signUp = async (req: Request, res: Response, next) => {
       return;
     }
     const user = await UserService.getOneUser(username);
-    const isUser = process.env.DB === 'pg' ? user.length : user;
+    const isUser = process.env.DB === POSTGRES_DB ? user.length : user;
     if (!isUser) {
       await UserService.register(username, password, firstName, lastName);
       const newUser = await UserService.getOneUser(username);
@@ -55,7 +56,8 @@ export const signUp = async (req: Request, res: Response, next) => {
       const refreshToken = generateRefreshToken().token;
       const userToReturn = { token, refreshToken };
       res.status(200).json(userToReturn);
-      logger.debug(newUser);
+      const convertedUser = process.env.DB === POSTGRES_DB ? JSON.stringify(newUser) : newUser;
+      logger.debug(convertedUser);
     } else {
       next(ApiError.forbidden(USER_ALREADY_EXISTS));
       return;
@@ -69,7 +71,8 @@ export const getUsers = async (req: Request, res: Response, next: any) => {
   try {
     const data = await UserService.getAllUsers();
     res.status(200).json(data);
-    logger.debug(data);
+    const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
+    logger.debug(convertedData);
   } catch (e) {
     next(e);
   }

@@ -3,11 +3,12 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { comparePasswords } from '../utils/passwordHelpers';
 
 import { UserService } from '../services';
+import { POSTGRES_DB } from '../utils/constants';
 
 const initialize = (passport) => {
   const authenticateUser = async (username, password, done) => {
     const user = await UserService.getOneUser(username);
-    const isUser = process.env.DB === 'pg' ? user.length : user;
+    const isUser = process.env.DB === POSTGRES_DB ? user.length : user;
     if (!isUser) {
       return done(null, false);
     }
