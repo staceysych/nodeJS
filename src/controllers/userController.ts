@@ -56,6 +56,7 @@ export const signUp = async (req: Request, res: Response, next) => {
       res.status(200).json(userToReturn);
       logger.debug(newUser.toJSON());
     } else {
+      console.log('user already exist');
       next(ApiError.forbidden(USER_ALREADY_EXISTS));
       return;
     }

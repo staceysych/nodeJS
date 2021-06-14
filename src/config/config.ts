@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 export const db = process.env.DB;
 export const dbString = process.env.DB_CONN_STRING;
 export const port = process.env.PORT;

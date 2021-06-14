@@ -2,11 +2,10 @@ import { ConnectionOptions } from 'typeorm';
 import path from 'path';
 import { psqlPassword } from './config/config';
 
-require('dotenv').config();
-
 const isCompiled = path.extname(__filename).includes('js');
 
 export default {
+  name: 'default',
   type: 'postgres',
   host: 'localhost',
   port: 5432,
