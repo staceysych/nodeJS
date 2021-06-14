@@ -1,5 +1,11 @@
 import { verifyToken } from '../utils/authHelpers';
-import { renewAccessToken, signUp, getUsers, updateUserProfile, updateUserPassword } from '../controllers/userController';
+import {
+  renewAccessToken,
+  signUp,
+  getUsers,
+  updateUserProfile,
+  updateUserPassword,
+} from '../controllers/userController';
 import { login } from '../passport/passportMiddleware';
 
 const { Router } = require('express');

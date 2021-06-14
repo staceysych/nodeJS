@@ -1,5 +1,5 @@
-import { connectToMongo } from '../src/utils/typegooseConnection';
-import { connectToTypeorm } from '../src/utils/typeormConnection';
+import { connectToMongo } from './utils/typegooseConnection';
+import { connectToTypeorm } from './utils/typeormConnection';
 
 const app = require('./routes');
 
@@ -8,4 +8,3 @@ if (process.env.DB === 'pg') {
 } else {
   connectToMongo(app);
 }
-

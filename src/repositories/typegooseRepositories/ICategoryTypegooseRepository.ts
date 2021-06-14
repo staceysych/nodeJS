@@ -1,4 +1,4 @@
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { Category } from '../../db/schemas/typegooseSchemas/CategoryTypegooseSchema';
 
 export class CategoryTypegooseRepository {
@@ -10,57 +10,57 @@ export class CategoryTypegooseRepository {
 
   async getAll() {
     return this.dataModel.find({});
-    }
+  }
 
   async getById(id: any) {
-    return this.dataModel.find({"_id": id});
-    }
+    return this.dataModel.find({ _id: id });
+  }
 
   async getByIdWithProducts(id: any, includeProducts: boolean, includeTop3Products: boolean) {
     if (includeTop3Products) {
       return this.dataModel.aggregate([
         { $match: { _id: Types.ObjectId(id) } },
-        { $lookup:
-          {
+        {
+          $lookup: {
             from: 'products',
             localField: '_id',
             foreignField: 'categoryIds',
-            as: 'top3products'
-          }
+            as: 'top3products',
+          },
         },
         {
-          $unwind: "$top3products"
+          $unwind: '$top3products',
         },
         {
           $sort: {
-            "top3products.totalRating": -1
-          }
+            'top3products.totalRating': -1,
+          },
         },
-        {$limit : 3},
+        { $limit: 3 },
         {
           $group: {
-            _id: "$_id",
-            displayName: { "$first": "$displayName" },
+            _id: '$_id',
+            displayName: { $first: '$displayName' },
             top3products: {
-              $push: "$top3products"
-            }
-          }
-        }
+              $push: '$top3products',
+            },
+          },
+        },
       ]);
     }
 
     if (includeProducts) {
       return this.dataModel.aggregate([
         { $match: { _id: Types.ObjectId(id) } },
-        { $lookup:
-          {
+        {
+          $lookup: {
             from: 'products',
             localField: '_id',
             foreignField: 'categoryIds',
-            as: 'products'
-          }
-        }
+            as: 'products',
+          },
+        },
       ]);
     }
-    }
+  }
 }

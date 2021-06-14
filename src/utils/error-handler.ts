@@ -1,13 +1,14 @@
+import { Request, Response } from 'express';
+
 const logger = require('../../logger');
 
-export const errorHandler = (error: any, req, res, next) => {
+export const errorHandler = (error: any, req: Request, res: Response) => {
+  logger.error(`${error.code || 500} - ${error.msg} - ${req.originalUrl} - ${req.method}`);
 
-    logger.error(`${error.code || 500} - ${error.msg} - ${req.originalUrl} - ${req.method}`);
-
-    res.status(error.code || 500).send({
-        error: {
-            status: error.code || 500,
-            message: error.msg || 'Internal Server Error',
-        },
-    });
-}
+  res.status(error.code || 500).send({
+    error: {
+      status: error.code || 500,
+      message: error.msg || 'Internal Server Error',
+    },
+  });
+};

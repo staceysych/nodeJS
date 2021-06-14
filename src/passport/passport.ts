@@ -14,11 +14,10 @@ const initialize = (passport) => {
 
   const verifyToken = async (jwtPayload, done) => {
     const user = await UserService.getOneUser(jwtPayload.username);
-      if(!user) {
-        return done(null, false);
-      } else {
-        return done(null, user)
-      }
+    if (!user) {
+      return done(null, false);
+    }
+    return done(null, user);
   };
 
   const authenticateUser = async (username, password, done) => {
@@ -30,17 +29,16 @@ const initialize = (passport) => {
     try {
       const isPasswordMatched = await comparePasswords(password, user);
       if (isPasswordMatched) {
-        return done(null, user)
-      } else {
-        return done(null, false);
+        return done(null, user);
       }
+      return done(null, false);
     } catch (e) {
-      return done(e)
+      return done(e);
     }
-  }
+  };
 
   passport.use(new LocalStrategy({ usernameField: 'username', passwordField: 'password' }, authenticateUser));
   passport.use(new StrategyJwt(jwtOptions, verifyToken));
-}
+};
 
 module.exports = initialize;
