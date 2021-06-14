@@ -55,9 +55,8 @@ export const signUp = async (req: Request, res: Response, next) => {
       const refreshToken = generateRefreshToken().token;
       const userToReturn = { token, refreshToken };
       res.status(200).json(userToReturn);
-      logger.debug(newUser.toJSON());
+      logger.debug(newUser);
     } else {
-      console.log('user already exist');
       next(ApiError.forbidden(USER_ALREADY_EXISTS));
       return;
     }
