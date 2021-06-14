@@ -47,7 +47,8 @@ export const signUp = async (req: Request, res: Response, next) => {
       return;
     }
     const user = await UserService.getOneUser(username);
-    if (!user || !user.length) {
+    const isUser = process.env.DB === 'pg' ? user.length : user;
+    if (!isUser) {
       await UserService.register(username, password, firstName, lastName);
       const newUser = await UserService.getOneUser(username);
       const token = generateAccessToken(username);
