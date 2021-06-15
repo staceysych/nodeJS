@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "sourceMap": true,
-      "outDir": "./dist",
-      "rootDir": "./src",
-      /* Strict Type-Checking Options */
-      "strict": true,
-      "noImplicitAny": false,
-      /* Module Resolution Options */
-      "moduleResolution": "node",
-      "baseUrl": "./src",
-      "esModuleInterop": true,
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": false,
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "lib": ["es2016"],
   "include": ["src/**/*"],

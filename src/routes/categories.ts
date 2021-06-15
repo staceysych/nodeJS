@@ -1,40 +1,44 @@
 import { Request, Response } from 'express';
 import { CategoryService } from '../services';
 
-const logger = require('../../logger');
+import { POSTGRES_DB } from '../utils/constants';
+
 const { Router } = require('express');
+const logger = require('../../logger');
 
 const router = Router();
 
 router.get('/', async (req: Request, res: Response, next) => {
-    try {
-        const data = await CategoryService.getAllCategories();        
-        res.status(200).json(data);
-        logger.debug(data);
-    } catch(e) {
-        next(e);
-    }
+  try {
+    const data = await CategoryService.getAllCategories();
+    res.status(200).json(data);
+    const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
+    logger.debug(convertedData);
+  } catch (e) {
+    next(e);
+  }
 });
 
 router.get('/:id', async (req: Request, res: Response, next) => {
-    let data: any;
-    const id = req.params.id;
+  let data: any;
+  const { id } = req.params;
 
-    try {
-        data = await CategoryService.getCategoryById(id);
+  try {
+    data = await CategoryService.getCategoryById(id);
 
-        if (req.query.includeProducts || req.query.includeTop3Products) {
-            const includeProducts = req.query.includeProducts && JSON.parse(req.query.includeProducts as string);
-            const includeTop3Products = req.query.includeTop3Products && JSON.parse(req.query.includeTop3Products as string);
+    if (req.query.includeProducts || req.query.includeTop3Products) {
+      const includeProducts = req.query.includeProducts && JSON.parse(req.query.includeProducts as string);
+      const includeTop3Products = req.query.includeTop3Products && JSON.parse(req.query.includeTop3Products as string);
 
-            data = await CategoryService.getCategoryByIdWithProducts(id, includeProducts, includeTop3Products)
-        }
-
-        res.status(200).json(data);
-        logger.debug(data);
-    } catch(e) {
-        next(e);
+      data = await CategoryService.getCategoryByIdWithProducts(id, includeProducts, includeTop3Products);
     }
+
+    res.status(200).json(data);
+    const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
+    logger.debug(convertedData);
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = router;
