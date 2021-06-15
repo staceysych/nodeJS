@@ -12,10 +12,11 @@ const { tokens, jwtSecret, refreshSecret } = jwtConfig;
 
 export const refreshTokens: string[] = [];
 
-export const generateAccessToken = (username) => {
+export const generateAccessToken = (username: string, role: string) => {
   const payload = {
     username,
     type: tokens.access.type,
+    role,
   };
   const options = { expiresIn: tokens.access.expiresIn };
 
@@ -34,7 +35,7 @@ export const generateRefreshToken = () => {
 
   return {
     id: payload.id,
-    token: jwt.sign(payload, refreshSecret, options),
+    token,
   };
 };
 

@@ -6,6 +6,9 @@ import {
   updateUserProfile,
   updateUserPassword,
 } from '../controllers/userController';
+
+import { getProduct } from '../controllers/adminController';
+
 import { login } from '../passport/passportMiddleware';
 
 const { Router } = require('express');
@@ -23,5 +26,7 @@ router.post('/token', renewAccessToken);
 router.put('/profile', verifyToken, updateUserProfile);
 
 router.post('/profile/password', verifyToken, updateUserPassword);
+
+router.get('/admin/products/:id', verifyToken, getProduct);
 
 module.exports = router;

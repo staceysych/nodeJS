@@ -8,6 +8,10 @@ export class ProductTypegooseRepository {
     this.dataModel = Product;
   }
 
+  async getById(id: any) {
+    return this.dataModel.find({ _id: id });
+  }
+
   async getAll(limit = 0, skip = 0) {
     return this.dataModel.find({}).skip(skip).limit(limit);
   }

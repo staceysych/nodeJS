@@ -17,4 +17,7 @@ export class User {
 
   @Column('varchar', { length: 100, nullable: true })
   lastName?: string;
+
+  @Column('varchar', { length: 100, nullable: true })
+  role?: string;
 }

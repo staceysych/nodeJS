@@ -5,6 +5,10 @@ import { SORT_DIRECTION } from '../../utils/constants';
 
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {
+  async getById(id: any) {
+    return this.find({ id });
+  }
+
   async getAll(limit?: number, skip?: number) {
     return this.find({ skip, take: limit });
   }

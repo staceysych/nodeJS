@@ -19,10 +19,16 @@ export const getAllUsers = async () => {
   }
 };
 
-export const register = async (username: string, password: string, firstName?: string, lastName?: string) => {
+export const register = async (
+  username: string,
+  password: string,
+  role: string,
+  firstName?: string,
+  lastName?: string
+) => {
   try {
     const repository = await new UserRepository().init();
-    return repository.createUser(username, password, firstName, lastName);
+    return repository.createUser(username, password, role, firstName, lastName);
   } catch (error) {
     ApiError.conflict(error);
   }

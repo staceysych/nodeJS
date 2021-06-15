@@ -17,12 +17,13 @@ export class UserTypegooseRepository {
     return this.dataModel.find({});
   }
 
-  async createUser(username: string, password: string, firstName?: string, lastName?: string) {
+  async createUser(username: string, password: string, role: string, firstName?: string, lastName?: string) {
     const data = {
       username,
       password: await hashPassword(password),
       firstName: firstName || '',
       lastName: lastName || '',
+      role: role || 'buyer',
     };
     return new User(data).save();
   }

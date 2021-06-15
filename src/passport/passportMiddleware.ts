@@ -17,7 +17,7 @@ export const login = async (req: Request, res: Response, next: any) =>
       return;
     }
 
-    const token = generateAccessToken(user.username);
+    const token = generateAccessToken(user.username, user.role);
     const refreshToken = generateRefreshToken().token;
 
     const response = {

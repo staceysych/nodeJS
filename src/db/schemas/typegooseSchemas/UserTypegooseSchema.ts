@@ -12,6 +12,9 @@ class UserClass {
 
   @prop()
   public lastName?: string;
+
+  @prop()
+  public role?: string;
 }
 
 const User = getModelForClass(UserClass, { schemaOptions: { collection: 'users' } });
