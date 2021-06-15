@@ -20,6 +20,16 @@ export const getCategoryById = async (id: any) => {
   }
 };
 
+export const getCategoryByName = async (displayName: string) => {
+  try {
+    const repository = new CategoryRepository().create();
+    const data = await repository.getByName(displayName);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getCategoryByIdWithProducts = async (id: any, includeProducts: boolean, includeTop3Products: boolean) => {
   try {
     const repository = new CategoryRepository().create();

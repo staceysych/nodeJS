@@ -11,6 +11,10 @@ export class CategoryTypeOrmRepository extends Repository<Category> {
     return this.find({ id });
   }
 
+  async getByName(displayName: string) {
+    return this.find({ display_name: displayName });
+  }
+
   async getByIdWithProducts(id: any, includeProducts: boolean, includeTop3Products: boolean) {
     if (includeProducts || includeTop3Products) {
       const data = await this.createQueryBuilder('category')

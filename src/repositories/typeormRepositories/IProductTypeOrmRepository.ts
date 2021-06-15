@@ -3,6 +3,9 @@ import { Product } from '../../db/schemas/typeormSchemas/ProductTypeOrmSchema';
 
 import { SORT_DIRECTION } from '../../utils/constants';
 
+import { IProduct } from '../../interfaces';
+import { getCategoryIdByName, convertDateToTimestamp } from '../../utils';
+
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {
   async getById(id: any) {
@@ -40,5 +43,16 @@ export class ProductTypeOrmRepository extends Repository<Product> {
           where: { price: MoreThanOrEqual(minPrice) },
           order: { [field || defaultField]: stringDirection },
         });
+  }
+
+  async createProduct(productData: IProduct) {
+    const data = {
+      display_name: productData.displayName,
+      category_ids: await getCategoryIdByName(productData.categoryIds as string[]),
+      created_at: convertDateToTimestamp(),
+      price: parseInt(productData.price, 10),
+      total_rating: parseInt(productData.totalRating, 10),
+    };
+    return this.createQueryBuilder('product').insert().into(Product).values([data]).execute();
   }
 }

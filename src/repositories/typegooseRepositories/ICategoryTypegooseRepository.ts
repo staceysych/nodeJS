@@ -16,6 +16,10 @@ export class CategoryTypegooseRepository {
     return this.dataModel.find({ _id: id });
   }
 
+  async getByName(displayName: string) {
+    return this.dataModel.findOne({ displayName });
+  }
+
   async getByIdWithProducts(id: any, includeProducts: boolean, includeTop3Products: boolean) {
     if (includeTop3Products) {
       return this.dataModel.aggregate([
