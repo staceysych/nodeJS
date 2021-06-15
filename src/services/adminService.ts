@@ -29,3 +29,12 @@ export const updateProduct = async (id: any, payload: any) => {
     console.log(error);
   }
 };
+
+export const deleteProductById = async (id: any) => {
+  try {
+    const repository = await new ProductRepository().create();
+    return repository.delete(id);
+  } catch (error) {
+    console.log(error);
+  }
+};

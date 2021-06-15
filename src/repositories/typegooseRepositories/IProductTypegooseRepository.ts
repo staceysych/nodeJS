@@ -65,10 +65,15 @@ export class ProductTypegooseRepository {
   }
 
   async update(id: any, payload: any) {
-    if (payload.categoryIds.length) {
+    if (payload.categoryIds && payload.categoryIds.length) {
       // eslint-disable-next-line no-param-reassign
       payload.categoryIds = await getCategoryIdByName(payload.categoryIds as string[]);
     }
+
     return this.dataModel.findOneAndUpdate({ _id: id }, payload);
+  }
+
+  async delete(id: any) {
+    return this.dataModel.deleteOne({ _id: id });
   }
 }

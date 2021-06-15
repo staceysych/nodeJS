@@ -58,3 +58,16 @@ export const updateProduct = async (req: IGetUserAuthInfoRequest, res: Response,
     next(e);
   }
 };
+
+export const deleteProduct = async (req: IGetUserAuthInfoRequest, res: Response, next: any) => {
+  try {
+    const isAdmin = req.user.role === 'admin';
+    if (isAdmin) {
+      const { id } = req.params;
+      await AdminService.deleteProductById(id);
+      res.status(200).send('Product was deleted');
+    }
+  } catch (e) {
+    next(e);
+  }
+};

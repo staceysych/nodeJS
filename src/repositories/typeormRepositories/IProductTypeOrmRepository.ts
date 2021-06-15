@@ -58,6 +58,11 @@ export class ProductTypeOrmRepository extends Repository<Product> {
 
   async update(id: number, payload: any) {
     console.log(payload);
+    // categoryIds
     return this.createQueryBuilder('product').update().set(payload).where({ id }).execute();
+  }
+
+  async delete(id: number) {
+    return this.createQueryBuilder('product').delete().from(Product).where({ id }).execute();
   }
 }
