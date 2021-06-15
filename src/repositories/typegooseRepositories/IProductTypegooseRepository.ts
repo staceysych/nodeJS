@@ -63,4 +63,12 @@ export class ProductTypegooseRepository {
     };
     return new Product(data).save();
   }
+
+  async update(id: any, payload: any) {
+    if (payload.categoryIds.length) {
+      // eslint-disable-next-line no-param-reassign
+      payload.categoryIds = await getCategoryIdByName(payload.categoryIds as string[]);
+    }
+    return this.dataModel.findOneAndUpdate({ _id: id }, payload);
+  }
 }

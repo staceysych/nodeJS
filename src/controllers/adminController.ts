@@ -44,3 +44,17 @@ export const createNewProduct = async (req: IGetUserAuthInfoRequest, res: Respon
     next(e);
   }
 };
+
+export const updateProduct = async (req: IGetUserAuthInfoRequest, res: Response, next: any) => {
+  try {
+    const isAdmin = req.user.role === 'admin';
+    if (isAdmin) {
+      const { id } = req.params;
+      await AdminService.updateProduct(id, req.body);
+      const updatedProduct = await AdminService.getProductById(id);
+      res.status(200).json(updatedProduct);
+    }
+  } catch (e) {
+    next(e);
+  }
+};

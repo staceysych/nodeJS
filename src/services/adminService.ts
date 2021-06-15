@@ -20,3 +20,12 @@ export const addProduct = async (productData: IProduct) => {
     ApiError.badRequest(error);
   }
 };
+
+export const updateProduct = async (id: any, payload: any) => {
+  try {
+    const repository = await new ProductRepository().create();
+    return repository.update(id, payload);
+  } catch (error) {
+    console.log(error);
+  }
+};

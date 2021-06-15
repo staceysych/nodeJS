@@ -55,4 +55,9 @@ export class ProductTypeOrmRepository extends Repository<Product> {
     };
     return this.createQueryBuilder('product').insert().into(Product).values([data]).execute();
   }
+
+  async update(id: number, payload: any) {
+    console.log(payload);
+    return this.createQueryBuilder('product').update().set(payload).where({ id }).execute();
+  }
 }

@@ -7,7 +7,7 @@ import {
   updateUserPassword,
 } from '../controllers/userController';
 
-import { getProduct, createNewProduct } from '../controllers/adminController';
+import { getProduct, createNewProduct, updateProduct } from '../controllers/adminController';
 
 import { login } from '../passport/passportMiddleware';
 
@@ -30,5 +30,7 @@ router.post('/profile/password', verifyToken, updateUserPassword);
 router.get('/admin/products/:id', verifyToken, getProduct);
 
 router.post('/admin/products', verifyToken, createNewProduct);
+
+router.patch('/admin/products/:id', verifyToken, updateProduct);
 
 module.exports = router;
