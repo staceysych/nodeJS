@@ -67,4 +67,16 @@ export class CategoryTypegooseRepository {
       ]);
     }
   }
+
+  async createCategory(payload: any) {
+    return new Category(payload).save();
+  }
+
+  async update(id: any, payload: any) {
+    return this.dataModel.findOneAndUpdate({ _id: id }, payload);
+  }
+
+  async delete(id: any) {
+    return this.dataModel.deleteOne({ _id: id });
+  }
 }
