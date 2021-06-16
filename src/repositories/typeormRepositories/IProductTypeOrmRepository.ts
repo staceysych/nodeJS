@@ -4,11 +4,12 @@ import { Product } from '../../db/schemas/typeormSchemas/ProductTypeOrmSchema';
 import { SORT_DIRECTION } from '../../utils/constants';
 
 import { IProduct } from '../../interfaces';
-import { getCategoryIdByName, convertDateToTimestamp } from '../../utils';
+import { getCategoryIdByName } from '../../utils';
 
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {
   async getById(id: any) {
+    console.log(id);
     return this.find({ id });
   }
 
@@ -46,14 +47,16 @@ export class ProductTypeOrmRepository extends Repository<Product> {
   }
 
   async createProduct(productData: IProduct) {
+    const array = await getCategoryIdByName(productData.categoryIds as string[]);
     const data = {
       display_name: productData.displayName,
-      category_ids: await getCategoryIdByName(productData.categoryIds as string[]),
-      created_at: convertDateToTimestamp(),
-      price: parseInt(productData.price, 10),
-      total_rating: parseInt(productData.totalRating, 10),
+      category_ids: array,
+      created_at: new Date(),
+      price: +productData.price,
+      total_rating: +productData.totalRating,
     };
-    return this.createQueryBuilder('product').insert().into(Product).values([data]).execute();
+    console.log(data);
+    return this.createQueryBuilder('product').insert().into(Product).values(data).execute();
   }
 
   async update(id: number, payload: any) {

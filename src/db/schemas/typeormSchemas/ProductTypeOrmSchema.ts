@@ -10,7 +10,7 @@ export class Product {
   @Column('varchar', { length: 100, nullable: true })
   display_name!: string;
 
-  @Column('int', { array: true })
+  @Column('int', { array: true, nullable: true })
   @OneToMany(() => Category, (category) => category.id)
   category_ids!: Category[];
 

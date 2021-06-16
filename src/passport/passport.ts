@@ -9,6 +9,7 @@ const initialize = (passport) => {
   const authenticateUser = async (username, password, done) => {
     const user = await UserService.getOneUser(username);
     const isUser = process.env.DB === POSTGRES_DB ? user.length : user;
+    console.log(user);
     if (!isUser) {
       return done(null, false);
     }

@@ -32,7 +32,8 @@ export const renewAccessToken = (req: Request, res: Response, next) => {
       if (err) {
         next(ApiError.forbidden(USER_IS_NOT_AUTHORIZED));
       } else {
-        const accessToken = generateAccessToken(user.username, user.role);
+        const { username, role } = process.env.DB === POSTGRES_DB ? user[0] : user;
+        const accessToken = generateAccessToken(username, role);
         const refresh = generateRefreshToken();
         return res.status(201).json({ accessToken, refreshToken: refresh.token });
       }

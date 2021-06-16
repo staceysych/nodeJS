@@ -13,15 +13,16 @@ export class UserTypeOrmRepository extends Repository<User> {
     return this.find({});
   }
 
-  async createUser(username: string, password: string, firstName?: string, lastName?: string) {
+  async createUser(username: string, password: string, role: string, firstName?: string, lastName?: string) {
     const data = {
       id: uuid(),
       username,
       password: await hashPassword(password),
       firstName: firstName || '',
       lastName: lastName || '',
+      role: role || 'buyer',
     };
-    return this.createQueryBuilder('users').insert().into(User).values([data]).execute();
+    return this.createQueryBuilder('users').insert().into(User).values(data).execute();
   }
 
   async update(username: string, payload: any) {
