@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Category } from './CategoryTypeOrmSchema';
 
 @Entity({ name: 'product' })
@@ -22,4 +22,11 @@ export class Product {
 
   @Column({ type: 'decimal', nullable: true })
   price!: number;
+
+  @ManyToMany(() => Category, (category) => category.productsCat, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  categories!: Category[];
 }

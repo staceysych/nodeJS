@@ -20,6 +20,7 @@ export interface IProductTypeorm {
   created_at?: Date;
   price: string;
   total_rating: string;
+  categories: number[];
 }
 export interface IGetUserAuthInfoRequest extends Request {
   user: any;

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, ManyToMany } from 'typeorm';
 import { Product } from './ProductTypeOrmSchema';
 
 @Entity({ name: 'category' })
@@ -13,4 +13,7 @@ export class Category {
   @Column('json', { array: true, nullable: true, select: false })
   @OneToMany(() => Product, (product) => product)
   products!: Product[];
+
+  @ManyToMany(() => Product, (product) => product.categories, { nullable: true })
+  productsCat!: Product[];
 }

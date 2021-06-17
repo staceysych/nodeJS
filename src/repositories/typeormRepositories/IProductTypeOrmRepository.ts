@@ -14,7 +14,7 @@ export class ProductTypeOrmRepository extends Repository<Product> {
   }
 
   async getAll(limit?: number, skip?: number) {
-    return this.find({ skip, take: limit });
+    return this.find({ skip, take: limit, relations: ['categories'] });
   }
 
   async getByName(displayName: string) {
@@ -54,7 +54,17 @@ export class ProductTypeOrmRepository extends Repository<Product> {
       price: +productData.price,
     };
 
-    return this.createQueryBuilder('product').insert().into(Product).values(data).execute();
+    const product = await this.createQueryBuilder('product')
+      .insert()
+      .into(Product)
+      .values(data)
+      .returning('id')
+      .execute();
+
+    await this.createQueryBuilder()
+      .relation(Product, 'categories')
+      .of(product.raw[0].id)
+      .add(await getCategoryIdByName(productData.category_ids as string[]));
   }
 
   async update(id: number, payload: any) {
