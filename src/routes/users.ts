@@ -7,7 +7,16 @@ import {
   updateUserPassword,
 } from '../controllers/userController';
 
-import { getProduct, createNewProduct, updateProduct, deleteProduct } from '../controllers/adminController';
+import {
+  getProduct,
+  createNewProduct,
+  updateProduct,
+  deleteProduct,
+  getCategory,
+  createNewCategory,
+  updateCategoryById,
+  deleteCategory,
+} from '../controllers/adminController';
 
 import { login } from '../passport/passportMiddleware';
 
@@ -34,5 +43,13 @@ router.post('/admin/products', verifyToken, createNewProduct);
 router.patch('/admin/products/:id', verifyToken, updateProduct);
 
 router.delete('/admin/products/:id', verifyToken, deleteProduct);
+
+router.get('/admin/categories/:id', verifyToken, getCategory);
+
+router.post('/admin/categories', verifyToken, createNewCategory);
+
+router.patch('/admin/categories/:id', verifyToken, updateCategoryById);
+
+router.delete('/admin/categories/:id', verifyToken, deleteCategory);
 
 module.exports = router;

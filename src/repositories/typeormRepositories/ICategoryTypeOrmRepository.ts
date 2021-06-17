@@ -29,4 +29,16 @@ export class CategoryTypeOrmRepository extends Repository<Category> {
       return data;
     }
   }
+
+  async createCategory(payload: any) {
+    return this.createQueryBuilder('category').insert().into(Category).values(payload).execute();
+  }
+
+  async update(id: number, payload: any) {
+    return this.createQueryBuilder('category').update().set(payload).where({ id }).execute();
+  }
+
+  async delete(id: number) {
+    return this.createQueryBuilder('category').delete().from(Category).where({ id }).execute();
+  }
 }

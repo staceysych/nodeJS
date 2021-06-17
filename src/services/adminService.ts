@@ -1,5 +1,6 @@
 import { ApiError } from '../utils/ApiError';
 import { ProductRepository } from '../repositories/productRepository';
+import { CategoryRepository } from '../repositories/categoryRepository';
 
 export const getProductById = async (id: any) => {
   try {
@@ -32,6 +33,43 @@ export const updateProduct = async (id: any, payload: any) => {
 export const deleteProductById = async (id: any) => {
   try {
     const repository = await new ProductRepository().create();
+    return repository.delete(id);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCategoryById = async (id: any) => {
+  try {
+    const repository = await new CategoryRepository().create();
+    const data = await repository.getById(id);
+    return data;
+  } catch (error) {
+    ApiError.badRequest(error);
+  }
+};
+
+export const addCategory = async (payload: any) => {
+  try {
+    const repository = await new CategoryRepository().create();
+    return await repository.createCategory(payload);
+  } catch (error) {
+    ApiError.badRequest(error);
+  }
+};
+
+export const updateCategory = async (id: any, payload: any) => {
+  try {
+    const repository = await new CategoryRepository().create();
+    return repository.update(id, payload);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteCategoryById = async (id: any) => {
+  try {
+    const repository = await new CategoryRepository().create();
     return repository.delete(id);
   } catch (error) {
     console.log(error);
