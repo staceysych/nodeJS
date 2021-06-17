@@ -13,6 +13,14 @@ export interface IProduct {
   price: string;
   totalRating: string;
 }
+export interface IProductTypeorm {
+  id?: string;
+  display_name: string;
+  category_ids?: string[];
+  created_at?: Date;
+  price: string;
+  total_rating: string;
+}
 export interface IGetUserAuthInfoRequest extends Request {
   user: any;
 }

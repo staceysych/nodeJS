@@ -32,9 +32,9 @@ export const renewAccessToken = (req: Request, res: Response, next) => {
       if (err) {
         next(ApiError.forbidden(USER_IS_NOT_AUTHORIZED));
       } else {
-        const { username, role } = process.env.DB === POSTGRES_DB ? user[0] : user;
+        const { username, role } = user;
         const accessToken = generateAccessToken(username, role);
-        const refresh = generateRefreshToken();
+        const refresh = generateRefreshToken(role);
         return res.status(201).json({ accessToken, refreshToken: refresh.token });
       }
     });
@@ -54,7 +54,7 @@ export const signUp = async (req: Request, res: Response, next) => {
       await UserService.register(username, password, role, firstName, lastName);
       const newUser = await UserService.getOneUser(username);
       const token = generateAccessToken(username, role);
-      const refreshToken = generateRefreshToken().token;
+      const refreshToken = generateRefreshToken(role).token;
       const userToReturn = { token, refreshToken };
       res.status(200).json(userToReturn);
       const convertedUser = process.env.DB === POSTGRES_DB ? JSON.stringify(newUser) : newUser;

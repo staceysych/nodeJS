@@ -23,10 +23,11 @@ export const generateAccessToken = (username: string, role: string) => {
   return jwt.sign(payload, jwtSecret, options);
 };
 
-export const generateRefreshToken = () => {
+export const generateRefreshToken = (role: string) => {
   const payload = {
     id: uuid(),
     type: tokens.refresh.type,
+    role,
   };
 
   const options = { expiresIn: tokens.refresh.expiresIn };

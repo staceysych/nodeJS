@@ -12,14 +12,14 @@ export class Product {
 
   @Column('int', { array: true, nullable: true })
   @OneToMany(() => Category, (category) => category.id)
-  category_ids!: Category[];
+  category_ids?: Category[];
 
   @Column({ type: 'timestamp', default: 'now()' })
-  created_at: Date = new Date();
+  created_at?: Date = new Date();
 
-  @Column()
+  @Column({ type: 'decimal', nullable: true })
   total_rating!: number;
 
-  @Column()
+  @Column({ type: 'decimal', nullable: true })
   price!: number;
 }

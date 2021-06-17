@@ -1,6 +1,5 @@
 import { ApiError } from '../utils/ApiError';
 import { ProductRepository } from '../repositories/productRepository';
-import { IProduct } from '../interfaces';
 
 export const getProductById = async (id: any) => {
   try {
@@ -12,7 +11,7 @@ export const getProductById = async (id: any) => {
   }
 };
 
-export const addProduct = async (productData: IProduct) => {
+export const addProduct = async (productData: any) => {
   try {
     const repository = await new ProductRepository().create();
     return await repository.createProduct(productData);

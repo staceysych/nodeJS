@@ -3,7 +3,7 @@ import { Product } from '../../db/schemas/typeormSchemas/ProductTypeOrmSchema';
 
 import { SORT_DIRECTION } from '../../utils/constants';
 
-import { IProduct } from '../../interfaces';
+import { IProductTypeorm } from '../../interfaces';
 import { getCategoryIdByName } from '../../utils';
 
 @EntityRepository(Product)
@@ -46,22 +46,25 @@ export class ProductTypeOrmRepository extends Repository<Product> {
         });
   }
 
-  async createProduct(productData: IProduct) {
-    const array = await getCategoryIdByName(productData.categoryIds as string[]);
+  async createProduct(productData: IProductTypeorm) {
     const data = {
-      display_name: productData.displayName,
-      category_ids: array,
-      created_at: new Date(),
+      display_name: productData.display_name,
+      category_ids: await getCategoryIdByName(productData.category_ids as string[]),
+      total_rating: +productData.total_rating,
       price: +productData.price,
-      total_rating: +productData.totalRating,
     };
-    console.log(data);
+
     return this.createQueryBuilder('product').insert().into(Product).values(data).execute();
   }
 
   async update(id: number, payload: any) {
+    if (payload.category_ids && payload.category_ids.length) {
+      // eslint-disable-next-line no-param-reassign
+      payload.category_ids = await getCategoryIdByName(payload.category_ids as string[]);
+    }
+
     console.log(payload);
-    // categoryIds
+
     return this.createQueryBuilder('product').update().set(payload).where({ id }).execute();
   }
 

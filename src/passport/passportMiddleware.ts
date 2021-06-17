@@ -19,7 +19,7 @@ export const login = async (req: Request, res: Response, next: any) =>
 
     const { username, role } = process.env.DB === POSTGRES_DB ? user[0] : user;
     const token = generateAccessToken(username, role);
-    const refreshToken = generateRefreshToken().token;
+    const refreshToken = generateRefreshToken(role).token;
 
     const response = {
       status: 'Logged in',

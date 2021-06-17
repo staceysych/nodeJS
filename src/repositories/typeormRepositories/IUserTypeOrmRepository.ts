@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid';
 import { EntityRepository, Repository } from 'typeorm';
 import { hashPassword } from '../../utils/passwordHelpers';
 import { User } from '../../db/schemas/typeormSchemas/UserTypeOrmSchema';
@@ -15,7 +14,6 @@ export class UserTypeOrmRepository extends Repository<User> {
 
   async createUser(username: string, password: string, role: string, firstName?: string, lastName?: string) {
     const data = {
-      id: uuid(),
       username,
       password: await hashPassword(password),
       firstName: firstName || '',

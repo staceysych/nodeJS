@@ -31,7 +31,6 @@ export const getProduct = async (req: IGetUserAuthInfoRequest, res: Response, ne
 export const createNewProduct = async (req: IGetUserAuthInfoRequest, res: Response, next: any) => {
   try {
     const isAdmin = req.user.role === 'admin';
-    console.log(req.user);
     if (isAdmin) {
       const data = await AdminService.addProduct(req.body);
       const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
