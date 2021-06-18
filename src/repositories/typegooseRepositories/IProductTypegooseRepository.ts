@@ -3,7 +3,7 @@ import { Product } from '../../db/schemas/typegooseSchemas/ProductTypegooseSchem
 import { SORT_DIRECTION } from '../../utils/constants';
 
 import { IProduct, IRating } from '../../interfaces';
-import { getCategoryIdByName, convertDateToTimestamp } from '../../utils';
+import { getCategoryIdByName, convertDateToTimestamp, countTotalRating } from '../../utils';
 
 export class ProductTypegooseRepository {
   public dataModel;
@@ -86,9 +86,19 @@ export class ProductTypegooseRepository {
       ratingData.rating = ratingData.rating || product.ratings[index].rating;
       ratingData.comment = ratingData.comment || product.ratings[index].comment;
       product.ratings[index] = ratingData;
+      product.totalRating = countTotalRating(product.ratings);
 
-      return this.dataModel.updateOne({ _id: ratingData.productId }, { ratings: product.ratings });
+      return this.dataModel.updateOne(
+        { _id: ratingData.productId },
+        { ratings: product.ratings, totalRating: product.totalRating }
+      );
     }
-    return this.dataModel.updateOne({ _id: ratingData.productId }, { $push: { ratings: ratingData } });
+
+    product.ratings.push(ratingData);
+    product.totalRating = countTotalRating(product.ratings);
+    return this.dataModel.updateOne(
+      { _id: ratingData.productId },
+      { ratings: product.ratings, totalRating: product.totalRating }
+    );
   }
 }
