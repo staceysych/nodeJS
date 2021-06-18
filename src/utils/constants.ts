@@ -11,3 +11,6 @@ export const INCORRECT_CREDENTIALS = 'Incorrect username or password';
 export const PASSWORDS_DO_NOT_MATCH = ' Passwords do not match';
 export const POSTGRES_DB = 'pg';
 export const ONLY_ADMIN = 'Access denied. Only admins';
+export const ADMIN_ROLE = 'admin';
+export const CATEGORY_WAS_DELETED = 'Category was deleted';
+export const PRODUCT_WAS_DELETED = 'Product was deleted';

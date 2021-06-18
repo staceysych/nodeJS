@@ -9,7 +9,6 @@ import { getCategoryIdByName } from '../../utils';
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {
   async getById(id: any) {
-    console.log(id);
     return this.find({ id });
   }
 
@@ -54,7 +53,13 @@ export class ProductTypeOrmRepository extends Repository<Product> {
       price: +productData.price,
     };
 
-    return this.createQueryBuilder('product').insert().into(Product).values(data).returning('id').execute();
+    const createdProduct = await this.createQueryBuilder('product')
+      .insert()
+      .into(Product)
+      .values(data)
+      .returning('id')
+      .execute();
+    return this.findOne({ id: createdProduct.raw[0].id });
   }
 
   async update(id: number, payload: any) {
@@ -62,8 +67,6 @@ export class ProductTypeOrmRepository extends Repository<Product> {
       // eslint-disable-next-line no-param-reassign
       payload.category_ids = await getCategoryIdByName(payload.category_ids as string[]);
     }
-
-    console.log(payload);
 
     return this.createQueryBuilder('product').update().set(payload).where({ id }).execute();
   }

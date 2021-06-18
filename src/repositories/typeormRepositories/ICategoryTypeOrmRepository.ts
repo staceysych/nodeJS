@@ -41,7 +41,9 @@ export class CategoryTypeOrmRepository extends Repository<Category> {
   }
 
   async createCategory(payload: any) {
-    return this.createQueryBuilder('category').insert().into(Category).values(payload).execute();
+    const createdCategory = await this.createQueryBuilder('category').insert().into(Category).values(payload).execute();
+
+    return this.findOne({ id: createdCategory.raw[0].id });
   }
 
   async update(id: number, payload: any) {
