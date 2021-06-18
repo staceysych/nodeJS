@@ -11,11 +11,14 @@ class ProductClass {
   @prop({ required: true, type: () => String })
   public createdAt!: Date;
 
-  @prop({ required: true })
+  @prop({ required: true, default: 0 })
   public totalRating!: number;
 
   @prop({ required: true })
   public price!: number;
+
+  @prop({ required: true })
+  public ratings!: object[];
 }
 
 const Product = getModelForClass(ProductClass, { schemaOptions: { collection: 'products' } });

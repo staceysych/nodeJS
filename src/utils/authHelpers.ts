@@ -16,7 +16,7 @@ export const generateAccessToken = (username: string, role: string) => {
   const payload = {
     username,
     type: tokens.access.type,
-    role,
+    role: role || 'buyer',
   };
   const options = { expiresIn: tokens.access.expiresIn };
 

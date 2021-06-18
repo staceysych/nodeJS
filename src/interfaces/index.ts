@@ -25,3 +25,11 @@ export interface IProductTypeorm {
 export interface IGetUserAuthInfoRequest extends Request {
   user: any;
 }
+
+export interface IRating {
+  id?: string;
+  username: string;
+  productId: string;
+  rating: number;
+  comment?: string;
+}

@@ -74,4 +74,8 @@ export class ProductTypeOrmRepository extends Repository<Product> {
   async delete(id: number) {
     return this.createQueryBuilder('product').delete().from(Product).where({ id }).execute();
   }
+
+  async rateProduct(ratingData: any) {
+    return this.createQueryBuilder('product').insert().into(Product).values(ratingData).execute();
+  }
 }
