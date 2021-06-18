@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Category } from '../../db/schemas/typeormSchemas/CategoryTypeOrmSchema';
+import { ProductService } from '../../services';
 
 @EntityRepository(Category)
 export class CategoryTypeOrmRepository extends Repository<Category> {
@@ -17,16 +18,25 @@ export class CategoryTypeOrmRepository extends Repository<Category> {
 
   async getByIdWithProducts(id: any, includeProducts: boolean, includeTop3Products: boolean) {
     if (includeProducts || includeTop3Products) {
-      const data = await this.createQueryBuilder('category')
-        .where('category.id = :id', { id })
-        .addSelect('category.products')
-        .getOne();
+      const category = await this.findOne({ id });
+      if (category) {
+        const products = await ProductService.getAllProducts();
+        const ProductWithGivenCategory = products.filter((product) => product.category_ids.includes(+id));
 
-      if (data && includeTop3Products) {
-        data.products = data?.products.sort((a, b) => b.total_rating - a.total_rating).slice(0, 3);
+        const categoryWithProducts = {
+          id: category.id,
+          display_name: category.display_name,
+          products: ProductWithGivenCategory || [],
+        };
+
+        if (includeTop3Products) {
+          categoryWithProducts.products = categoryWithProducts.products
+            .sort((a, b) => b.total_rating - a.total_rating)
+            .slice(0, 3);
+        }
+
+        return categoryWithProducts;
       }
-
-      return data;
     }
   }
 
