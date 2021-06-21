@@ -1,4 +1,4 @@
-import { verifyToken } from '../utils/authHelpers';
+import { isAdmin, verifyToken } from '../utils/authHelpers';
 import {
   renewAccessToken,
   signUp,
@@ -38,18 +38,18 @@ router.post('/profile/password', verifyToken, updateUserPassword);
 
 router.get('/admin/products/:id', verifyToken, getProduct);
 
-router.post('/admin/products', verifyToken, createNewProduct);
+router.post('/admin/products', verifyToken, isAdmin, createNewProduct);
 
-router.patch('/admin/products/:id', verifyToken, updateProduct);
+router.patch('/admin/products/:id', verifyToken, isAdmin, updateProduct);
 
-router.delete('/admin/products/:id', verifyToken, deleteProduct);
+router.delete('/admin/products/:id', verifyToken, isAdmin, deleteProduct);
 
-router.get('/admin/categories/:id', verifyToken, getCategory);
+router.get('/admin/categories/:id', verifyToken, isAdmin, getCategory);
 
-router.post('/admin/categories', verifyToken, createNewCategory);
+router.post('/admin/categories', verifyToken, isAdmin, createNewCategory);
 
-router.patch('/admin/categories/:id', verifyToken, updateCategoryById);
+router.patch('/admin/categories/:id', verifyToken, isAdmin, updateCategoryById);
 
-router.delete('/admin/categories/:id', verifyToken, deleteCategory);
+router.delete('/admin/categories/:id', verifyToken, isAdmin, deleteCategory);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ApiError } from '../utils/ApiError';
+import { ApiError } from '../utils';
 import { ProductService } from '../services';
 import { getSortCriteria } from '../utils/getSortCriteria';
 import { POSTGRES_DB } from '../utils/constants';

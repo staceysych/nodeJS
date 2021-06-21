@@ -1,5 +1,5 @@
 import { Request, Response, Application } from 'express';
-import { errorHandler } from '../utils/error-handler';
+import { errorHandler } from '../utils/errorHandler';
 
 const express = require('express');
 const bodyParser = require('body-parser');

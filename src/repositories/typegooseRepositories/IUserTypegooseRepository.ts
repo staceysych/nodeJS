@@ -1,6 +1,7 @@
 import { User } from '../../db/schemas/typegooseSchemas/UserTypegooseSchema';
 
 import { hashPassword } from '../../utils/passwordHelpers';
+import { ROLES } from '../../utils/constants';
 
 export class UserTypegooseRepository {
   public dataModel;
@@ -23,7 +24,7 @@ export class UserTypegooseRepository {
       password: await hashPassword(password),
       firstName: firstName || '',
       lastName: lastName || '',
-      role: role || 'buyer',
+      role: role || ROLES.buyer,
     };
     return new User(data).save();
   }
