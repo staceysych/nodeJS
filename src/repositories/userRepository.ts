@@ -4,7 +4,7 @@ import { UserTypegooseRepository } from './typegooseRepositories/IUserTypegooseR
 import { UserTypeOrmRepository } from './typeormRepositories/IUserTypeOrmRepository';
 
 export class UserRepository {
-  init() {
+  create() {
     if (process.env.DB === 'mongo') {
       return new UserTypegooseRepository();
     }

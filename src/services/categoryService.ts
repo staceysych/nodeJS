@@ -1,8 +1,9 @@
 import { CategoryRepository } from '../repositories/categoryRepository';
 
+const repository = new CategoryRepository().create();
+
 export const getAllCategories = async () => {
   try {
-    const repository = new CategoryRepository().create();
     const data = await repository.getAll();
     return data;
   } catch (error) {
@@ -12,7 +13,6 @@ export const getAllCategories = async () => {
 
 export const getCategoryById = async (id: any) => {
   try {
-    const repository = new CategoryRepository().create();
     const data = await repository.getById(id);
     return data;
   } catch (error) {
@@ -22,7 +22,6 @@ export const getCategoryById = async (id: any) => {
 
 export const getCategoryByName = async (displayName: string) => {
   try {
-    const repository = new CategoryRepository().create();
     const data = await repository.getByName(displayName);
     return data;
   } catch (error) {
@@ -32,7 +31,6 @@ export const getCategoryByName = async (displayName: string) => {
 
 export const getCategoryByIdWithProducts = async (id: any, includeProducts: boolean, includeTop3Products: boolean) => {
   try {
-    const repository = new CategoryRepository().create();
     const data = await repository.getByIdWithProducts(id, includeProducts, includeTop3Products);
     return data;
   } catch (error) {
