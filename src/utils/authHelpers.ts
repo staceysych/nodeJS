@@ -6,7 +6,7 @@ import { Response } from 'express';
 import { jwtConfig } from '../config/config';
 import { ApiError } from './apiError';
 import { IGetUserAuthInfoRequest } from '../interfaces';
-import { USER_IS_NOT_AUTHORIZED, ROLES } from './constants';
+import { USER_IS_NOT_AUTHORIZED, ROLES, ONLY_ADMIN } from './constants';
 
 const { tokens, jwtSecret, refreshSecret } = jwtConfig;
 
@@ -58,4 +58,10 @@ export const verifyToken = (req: IGetUserAuthInfoRequest, res: Response, next) =
   }
 };
 
-export const isAdmin = (role: string) => role === ROLES.admin;
+export const isAdmin = (req: IGetUserAuthInfoRequest, res: Response, next) => {
+  if (req.user.role === ROLES.admin) {
+    next();
+  } else {
+    next(ApiError.forbidden(ONLY_ADMIN));
+  }
+};
