@@ -1,25 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany } from 'typeorm';
 import { Category } from './CategoryTypeOrmSchema';
+
 @Entity({ name: 'product' })
 export class Product {
+  @PrimaryGeneratedColumn()
+  id!: number;
 
-    @PrimaryGeneratedColumn()
-    id!: number;
-    @Index({unique: true})
+  @Index({ unique: true })
+  @Column('varchar', { length: 100, nullable: true })
+  display_name!: string;
 
-    @Column('varchar', { length: 100, nullable: true })
-    display_name!: string;
+  @Column('int', { array: true, nullable: true })
+  @OneToMany(() => Category, (category) => category.id)
+  category_ids?: Category[];
 
-    @Column("int", { array: true })
-    @OneToMany(() => Category, category => category.id)
-    category_ids!: Category[];
+  @Column({ type: 'timestamp', default: 'now()' })
+  created_at?: Date = new Date();
 
-    @Column({ type: "timestamp", default: "now()" })
-    created_at:  Date = new Date();
+  @Column({ type: 'decimal', nullable: true })
+  total_rating!: number;
 
-    @Column()
-    total_rating!: number;
-
-    @Column()
-    price!: number;
+  @Column({ type: 'decimal', nullable: true })
+  price!: number;
 }

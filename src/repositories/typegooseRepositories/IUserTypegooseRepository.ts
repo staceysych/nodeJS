@@ -1,6 +1,7 @@
 import { User } from '../../db/schemas/typegooseSchemas/UserTypegooseSchema';
 
 import { hashPassword } from '../../utils/passwordHelpers';
+import { ROLES } from '../../utils/constants';
 
 export class UserTypegooseRepository {
   public dataModel;
@@ -17,17 +18,22 @@ export class UserTypegooseRepository {
     return this.dataModel.find({});
   }
 
-  async createUser(username: string, password: string, firstName?: string, lastName?: string) {
-    const data = { username, password: await hashPassword(password), firstName: firstName || '', lastName: lastName || '',
+  async createUser(username: string, password: string, role: string, firstName?: string, lastName?: string) {
+    const data = {
+      username,
+      password: await hashPassword(password),
+      firstName: firstName || '',
+      lastName: lastName || '',
+      role: role || ROLES.buyer,
     };
     return new User(data).save();
-  };
+  }
 
   async update(username: string, payload: any) {
-      return this.dataModel.findOneAndUpdate({ username }, payload);
-  };
+    return this.dataModel.findOneAndUpdate({ username }, payload);
+  }
 
   async updatePassword(username: string, newPassword: string) {
-      return this.dataModel.findOneAndUpdate({ username }, { password: await hashPassword(newPassword) });
-  };
+    return this.dataModel.findOneAndUpdate({ username }, { password: await hashPassword(newPassword) });
+  }
 }
