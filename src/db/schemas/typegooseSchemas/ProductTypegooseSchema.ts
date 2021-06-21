@@ -12,7 +12,7 @@ class ProductClass {
   public createdAt!: Date;
 
   @prop({ required: true, default: 0 })
-  public totalRating!: number;
+  public totalRating?: number;
 
   @prop({ required: true })
   public price!: number;

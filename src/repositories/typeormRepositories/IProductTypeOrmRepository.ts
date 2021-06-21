@@ -50,7 +50,7 @@ export class ProductTypeOrmRepository extends Repository<Product> {
     const data = {
       display_name: productData.display_name,
       category_ids: await getCategoryIdByName(productData.category_ids as string[]),
-      total_rating: +productData.total_rating,
+      total_rating: 0,
       price: +productData.price,
     };
 

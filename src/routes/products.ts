@@ -3,7 +3,7 @@ import { ApiError } from '../utils';
 import { ProductService } from '../services';
 import { getSortCriteria } from '../utils/getSortCriteria';
 import { POSTGRES_DB } from '../utils/constants';
-import { verifyToken } from '../utils/authHelpers';
+import { isBuyer, verifyToken } from '../utils/authHelpers';
 import { rateProductById } from '../controllers/productController';
 
 const { Router } = require('express');
@@ -86,6 +86,6 @@ router.get('/', async (req: Request, res: Response, next) => {
   }
 });
 
-router.post('/:id/rate', verifyToken, rateProductById);
+router.post('/:id/rate', verifyToken, isBuyer, rateProductById);
 
 module.exports = router;

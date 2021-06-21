@@ -6,7 +6,7 @@ import { Response } from 'express';
 import { jwtConfig } from '../config/config';
 import { ApiError } from './apiError';
 import { IGetUserAuthInfoRequest } from '../interfaces';
-import { USER_IS_NOT_AUTHORIZED, ROLES, ONLY_ADMIN } from './constants';
+import { USER_IS_NOT_AUTHORIZED, ROLES, ONLY_ADMIN, ONLY_BUYER } from './constants';
 
 const { tokens, jwtSecret, refreshSecret } = jwtConfig;
 
@@ -63,5 +63,13 @@ export const isAdmin = (req: IGetUserAuthInfoRequest, res: Response, next) => {
     next();
   } else {
     next(ApiError.forbidden(ONLY_ADMIN));
+  }
+};
+
+export const isBuyer = (req: IGetUserAuthInfoRequest, res: Response, next) => {
+  if (req.user.role === ROLES.buyer) {
+    next();
+  } else {
+    next(ApiError.forbidden(ONLY_BUYER));
   }
 };

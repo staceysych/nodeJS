@@ -17,8 +17,8 @@ export class Product {
   @Column({ type: 'timestamp', default: 'now()' })
   created_at?: Date = new Date();
 
-  @Column({ type: 'decimal', nullable: true })
-  total_rating!: number;
+  @Column({ type: 'decimal', nullable: true, default: 0 })
+  total_rating?: number;
 
   @Column({ type: 'decimal', nullable: true })
   price!: number;
