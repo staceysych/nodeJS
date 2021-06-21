@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id!: number;
 
   @Index({ unique: true })
@@ -17,4 +17,7 @@ export class User {
 
   @Column('varchar', { length: 100, nullable: true })
   lastName?: string;
+
+  @Column('varchar', { length: 100, nullable: true })
+  role?: string;
 }

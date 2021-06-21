@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import { ApiError } from '../utils';
 import { generateAccessToken, generateRefreshToken } from '../utils/authHelpers';
-import { AUTH_ERROR, INCORRECT_CREDENTIALS } from '../utils/constants';
+import { AUTH_ERROR, INCORRECT_CREDENTIALS, POSTGRES_DB } from '../utils/constants';
 
 const passport = require('passport');
 
@@ -17,8 +17,9 @@ export const login = async (req: Request, res: Response, next: any) =>
       return;
     }
 
-    const token = generateAccessToken(user.username);
-    const refreshToken = generateRefreshToken().token;
+    const { username, role } = process.env.DB === POSTGRES_DB ? user[0] : user;
+    const token = generateAccessToken(username, role);
+    const refreshToken = generateRefreshToken(role).token;
 
     const response = {
       status: 'Logged in',

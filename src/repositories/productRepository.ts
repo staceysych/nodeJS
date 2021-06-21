@@ -4,7 +4,7 @@ import { ProductTypeOrmRepository } from './typeormRepositories/IProductTypeOrmR
 import { ProductTypegooseRepository } from './typegooseRepositories/IProductTypegooseRepository';
 
 export class ProductRepository {
-  async create() {
+  create() {
     if (process.env.DB === 'mongo') {
       return new ProductTypegooseRepository();
     }
