@@ -22,7 +22,13 @@ export class UserRatingsTypeOrmRepository extends Repository<UserRatings> {
         .returning('id')
         .execute();
 
-      return this.findOne({ id: newRating.raw[0].id });
+      const ratingToRes = await this.findOne({ id: newRating.raw[0].id });
+      const allRatingsById = await this.find({ productId: ratingData.productId });
+
+      return {
+        ratingToRes,
+        allRatingsById,
+      };
     }
 
     data.rating = ratingData.rating || +users[index].rating;
@@ -34,6 +40,12 @@ export class UserRatingsTypeOrmRepository extends Repository<UserRatings> {
       .returning('id')
       .execute();
 
-    return this.findOne({ id: updatedRating.raw[0].id });
+    const ratingToRes = await this.findOne({ id: updatedRating.raw[0].id });
+    const allRatingsById = await this.find({ productId: ratingData.productId });
+
+    return {
+      ratingToRes,
+      allRatingsById,
+    };
   }
 }

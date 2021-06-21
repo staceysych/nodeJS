@@ -22,7 +22,7 @@ export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Respons
 
       const result = await ProductService.rateProduct(ratingData);
       const updatedProduct =
-        process.env.DB === POSTGRES_DB ? result : await ProductService.getProductById(req.params.id);
+        process.env.DB === POSTGRES_DB ? result.ratingToRes : await ProductService.getProductById(req.params.id);
       const converted = process.env.DB === POSTGRES_DB ? JSON.stringify(updatedProduct) : updatedProduct;
       res.status(200).json(updatedProduct);
       logger.debug(converted);

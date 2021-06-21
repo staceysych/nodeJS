@@ -4,7 +4,7 @@ import { Product } from '../../db/schemas/typeormSchemas/ProductTypeOrmSchema';
 import { SORT_DIRECTION } from '../../utils/constants';
 
 import { IProductTypeorm } from '../../interfaces';
-import { getCategoryIdByName } from '../../utils';
+import { countTotalRating, getCategoryIdByName } from '../../utils';
 import { UserRatingsTypeOrmRepository } from './IUserRatingsTypeOrmRepository';
 
 @EntityRepository(Product)
@@ -78,6 +78,12 @@ export class ProductTypeOrmRepository extends Repository<Product> {
 
   async rateProduct(ratingData: any) {
     const repository = await getCustomRepository(UserRatingsTypeOrmRepository);
-    return repository.rate(ratingData);
+    const data = await repository.rate(ratingData);
+    const { allRatingsById } = data;
+    const totalRating = countTotalRating(allRatingsById);
+
+    await this.update(allRatingsById[0].productId, { total_rating: totalRating });
+
+    return data;
   }
 }
