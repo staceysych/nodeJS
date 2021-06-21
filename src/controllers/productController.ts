@@ -3,10 +3,10 @@ import { IGetUserAuthInfoRequest } from '../interfaces';
 
 import { ProductService } from '../services';
 
-import { ApiError } from '../utils';
+import { ApiError, validateRating } from '../utils';
 import { isAdmin } from '../utils/authHelpers';
 
-import { POSTGRES_DB } from '../utils/constants';
+import { POSTGRES_DB, ONLY_BUYER, INVALID_RATING } from '../utils/constants';
 
 const logger = require('../../logger');
 
@@ -20,6 +20,11 @@ export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Respons
         comment: req.body.comment || '',
       };
 
+      if (!validateRating(+ratingData.rating)) {
+        next(ApiError.badRequest(INVALID_RATING));
+        return;
+      }
+
       const result = await ProductService.rateProduct(ratingData);
       const updatedProduct =
         process.env.DB === POSTGRES_DB ? result.ratingToRes : await ProductService.getProductById(req.params.id);
@@ -27,7 +32,7 @@ export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Respons
       res.status(200).json(updatedProduct);
       logger.debug(converted);
     } else {
-      next(ApiError.forbidden('Only buyers can rate products'));
+      next(ApiError.forbidden(ONLY_BUYER));
       return;
     }
   } catch (e) {
