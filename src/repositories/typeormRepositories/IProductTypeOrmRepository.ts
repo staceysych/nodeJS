@@ -1,10 +1,11 @@
-import { Between, EntityRepository, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, EntityRepository, getCustomRepository, MoreThanOrEqual, Repository } from 'typeorm';
 import { Product } from '../../db/schemas/typeormSchemas/ProductTypeOrmSchema';
 
 import { SORT_DIRECTION } from '../../utils/constants';
 
 import { IProductTypeorm } from '../../interfaces';
 import { getCategoryIdByName } from '../../utils';
+import { UserRatingsTypeOrmRepository } from './IUserRatingsTypeOrmRepository';
 
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {
@@ -76,6 +77,7 @@ export class ProductTypeOrmRepository extends Repository<Product> {
   }
 
   async rateProduct(ratingData: any) {
-    return this.createQueryBuilder('product').insert().into(Product).values(ratingData).execute();
+    const repository = await getCustomRepository(UserRatingsTypeOrmRepository);
+    return repository.rate(ratingData);
   }
 }

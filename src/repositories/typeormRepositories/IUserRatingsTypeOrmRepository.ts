@@ -1,0 +1,39 @@
+import { EntityRepository, Repository } from 'typeorm';
+import { UserRatings } from '../../db/schemas/typeormSchemas/UserRatingsTypeOrmSchema';
+
+@EntityRepository(UserRatings)
+export class UserRatingsTypeOrmRepository extends Repository<UserRatings> {
+  async rate(ratingData: any) {
+    const users = await this.find({ username: ratingData.username });
+
+    const index = users.findIndex((user) => user.productId === +ratingData.productId);
+    const data = {
+      username: ratingData.username,
+      productId: +ratingData.productId,
+      rating: +ratingData.rating,
+      comment: ratingData.comment,
+    };
+
+    if (index === -1) {
+      const newRating = await this.createQueryBuilder('user_ratings')
+        .insert()
+        .into(UserRatings)
+        .values(data)
+        .returning('id')
+        .execute();
+
+      return this.findOne({ id: newRating.raw[0].id });
+    }
+
+    data.rating = ratingData.rating || +users[index].rating;
+    data.comment = ratingData.comment || users[index].comment;
+    const updatedRating = await this.createQueryBuilder('user_ratings')
+      .update()
+      .set(data)
+      .where({ username: data.username, productId: data.productId })
+      .returning('id')
+      .execute();
+
+    return this.findOne({ id: updatedRating.raw[0].id });
+  }
+}

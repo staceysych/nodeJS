@@ -6,6 +6,8 @@ import { ProductService } from '../services';
 import { ApiError } from '../utils';
 import { isAdmin } from '../utils/authHelpers';
 
+import { POSTGRES_DB } from '../utils/constants';
+
 const logger = require('../../logger');
 
 export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Response, next: any) => {
@@ -18,10 +20,12 @@ export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Respons
         comment: req.body.comment || '',
       };
 
-      await ProductService.rateProduct(ratingData);
-      const updatedProduct = await ProductService.getProductById(req.params.id);
+      const result = await ProductService.rateProduct(ratingData);
+      const updatedProduct =
+        process.env.DB === POSTGRES_DB ? result : await ProductService.getProductById(req.params.id);
+      const converted = process.env.DB === POSTGRES_DB ? JSON.stringify(updatedProduct) : updatedProduct;
       res.status(200).json(updatedProduct);
-      logger.debug(updatedProduct);
+      logger.debug(converted);
     } else {
       next(ApiError.forbidden('Only buyers can rate products'));
       return;
