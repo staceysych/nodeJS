@@ -1,4 +1,4 @@
-import { ApiError } from '../utils/ApiError';
+import { ApiError } from '../utils';
 import { UserRepository } from '../repositories/userRepository';
 
 export const getOneUser = async (username: string) => {

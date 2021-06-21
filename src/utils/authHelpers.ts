@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { Response } from 'express';
 
 import { jwtConfig } from '../config/config';
-import { ApiError } from '.';
+import { ApiError } from './apiError';
 import { IGetUserAuthInfoRequest } from '../interfaces';
 import { USER_IS_NOT_AUTHORIZED, ROLES } from './constants';
 

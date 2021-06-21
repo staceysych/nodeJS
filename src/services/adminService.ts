@@ -1,4 +1,4 @@
-import { ApiError } from '../utils/ApiError';
+import { ApiError } from '../utils';
 import { ProductRepository } from '../repositories/productRepository';
 import { CategoryRepository } from '../repositories/categoryRepository';
 
