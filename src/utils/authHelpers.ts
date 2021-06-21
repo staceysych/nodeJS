@@ -6,7 +6,7 @@ import { Response } from 'express';
 import { jwtConfig } from '../config/config';
 import { ApiError } from '.';
 import { IGetUserAuthInfoRequest } from '../interfaces';
-import { USER_IS_NOT_AUTHORIZED, ADMIN_ROLE } from './constants';
+import { USER_IS_NOT_AUTHORIZED, ROLES } from './constants';
 
 const { tokens, jwtSecret, refreshSecret } = jwtConfig;
 
@@ -58,4 +58,4 @@ export const verifyToken = (req: IGetUserAuthInfoRequest, res: Response, next) =
   }
 };
 
-export const isAdmin = (role: string) => role === ADMIN_ROLE;
+export const isAdmin = (role: string) => role === ROLES.admin;

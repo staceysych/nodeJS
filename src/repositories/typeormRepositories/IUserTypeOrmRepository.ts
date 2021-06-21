@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { hashPassword } from '../../utils/passwordHelpers';
+import { ROLES } from '../../utils/constants';
 import { User } from '../../db/schemas/typeormSchemas/UserTypeOrmSchema';
 
 @EntityRepository(User)
@@ -18,7 +19,7 @@ export class UserTypeOrmRepository extends Repository<User> {
       password: await hashPassword(password),
       firstName: firstName || '',
       lastName: lastName || '',
-      role: role || 'buyer',
+      role: role || ROLES.buyer,
     };
     return this.createQueryBuilder('users').insert().into(User).values(data).execute();
   }
