@@ -101,4 +101,14 @@ export class ProductTypegooseRepository {
       { ratings: product.ratings, totalRating: product.totalRating }
     );
   }
+
+  async get10LastRatings() {
+    const allProducts = await this.getAll();
+    const allRatings = allProducts.reduce((acc, cur) => {
+      acc.push(...cur.ratings);
+      return acc;
+    }, []);
+    allRatings.sort((a, b) => b.createdAt - a.createdAt);
+    return allRatings.slice(0, 10);
+  }
 }

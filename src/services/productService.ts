@@ -61,3 +61,13 @@ export const rateProduct = async (ratingData: IRating) => {
     console.log(error);
   }
 };
+
+export const get10LastRatings = async () => {
+  try {
+    const repository = await new ProductRepository().create();
+    const data = await repository.get10LastRatings();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

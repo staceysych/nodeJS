@@ -32,4 +32,5 @@ export interface IRating {
   productId: string;
   rating: number;
   comment?: string;
+  createdAt?: Date | number;
 }

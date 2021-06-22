@@ -1,4 +1,5 @@
 import { Request, Response, Application } from 'express';
+import { get10LastRatings } from '../controllers/productController';
 import { errorHandler } from '../utils/errorHandler';
 
 const express = require('express');
@@ -24,6 +25,8 @@ app.use((req: Request, res: Response, done) => {
 app.get('/', (req: Request, res: Response) => {
   res.send(`Hello, ${process.env.USERNAME}! My name is Anastasiya Sych. It's my first ${process.env.DB} server`);
 });
+
+app.get('/lastRatings', get10LastRatings);
 
 app.use('/products', products);
 app.use('/categories', categories);
