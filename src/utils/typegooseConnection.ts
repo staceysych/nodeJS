@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('../websocketServer');
 
 export const connectToMongo = async (app) => {
   try {
