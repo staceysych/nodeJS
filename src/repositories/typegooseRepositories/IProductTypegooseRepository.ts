@@ -1,8 +1,9 @@
+/* eslint-disable no-param-reassign */
 import { Product } from '../../db/schemas/typegooseSchemas/ProductTypegooseSchema';
 import { SORT_DIRECTION } from '../../utils/constants';
 
-import { IProduct } from '../../interfaces';
-import { getCategoryIdByName, convertDateToTimestamp } from '../../utils';
+import { IProduct, IRating } from '../../interfaces';
+import { getCategoryIdByName, convertDateToTimestamp, countTotalRating } from '../../utils';
 
 export class ProductTypegooseRepository {
   public dataModel;
@@ -59,7 +60,6 @@ export class ProductTypegooseRepository {
       categoryIds: await getCategoryIdByName(productData.categoryIds as string[]),
       createdAt: convertDateToTimestamp(),
       price: productData.price,
-      totalRating: productData.totalRating,
     };
     return new Product(data).save();
   }
@@ -75,5 +75,30 @@ export class ProductTypegooseRepository {
 
   async delete(id: any) {
     return this.dataModel.deleteOne({ _id: id });
+  }
+
+  async rateProduct(ratingData: IRating) {
+    const product = await this.dataModel.findOne({ _id: ratingData.productId });
+    const index = product.ratings.findIndex((user) => user.username === ratingData.username);
+
+    if (index !== -1) {
+      // eslint-disable-next-line no-param-reassign
+      ratingData.rating = ratingData.rating || product.ratings[index].rating;
+      ratingData.comment = ratingData.comment || product.ratings[index].comment;
+      product.ratings[index] = ratingData;
+      product.totalRating = countTotalRating(product.ratings);
+
+      return this.dataModel.updateOne(
+        { _id: ratingData.productId },
+        { ratings: product.ratings, totalRating: product.totalRating }
+      );
+    }
+
+    product.ratings.push(ratingData);
+    product.totalRating = countTotalRating(product.ratings);
+    return this.dataModel.updateOne(
+      { _id: ratingData.productId },
+      { ratings: product.ratings, totalRating: product.totalRating }
+    );
   }
 }

@@ -1,10 +1,11 @@
-import { Between, EntityRepository, MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, EntityRepository, getCustomRepository, MoreThanOrEqual, Repository } from 'typeorm';
 import { Product } from '../../db/schemas/typeormSchemas/ProductTypeOrmSchema';
 
 import { SORT_DIRECTION } from '../../utils/constants';
 
 import { IProductTypeorm } from '../../interfaces';
-import { getCategoryIdByName } from '../../utils';
+import { countTotalRating, getCategoryIdByName } from '../../utils';
+import { UserRatingsTypeOrmRepository } from './IUserRatingsTypeOrmRepository';
 
 @EntityRepository(Product)
 export class ProductTypeOrmRepository extends Repository<Product> {
@@ -49,7 +50,7 @@ export class ProductTypeOrmRepository extends Repository<Product> {
     const data = {
       display_name: productData.display_name,
       category_ids: await getCategoryIdByName(productData.category_ids as string[]),
-      total_rating: +productData.total_rating,
+      total_rating: 0,
       price: +productData.price,
     };
 
@@ -73,5 +74,16 @@ export class ProductTypeOrmRepository extends Repository<Product> {
 
   async delete(id: number) {
     return this.createQueryBuilder('product').delete().from(Product).where({ id }).execute();
+  }
+
+  async rateProduct(ratingData: any) {
+    const repository = await getCustomRepository(UserRatingsTypeOrmRepository);
+    const data = await repository.rate(ratingData);
+    const { allRatingsById } = data;
+    const totalRating = countTotalRating(allRatingsById);
+
+    await this.update(allRatingsById[0].productId, { total_rating: totalRating });
+
+    return data;
   }
 }

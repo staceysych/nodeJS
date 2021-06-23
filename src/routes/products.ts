@@ -3,6 +3,8 @@ import { ApiError } from '../utils';
 import { ProductService } from '../services';
 import { getSortCriteria } from '../utils/getSortCriteria';
 import { POSTGRES_DB } from '../utils/constants';
+import { isBuyer, verifyToken } from '../utils/authHelpers';
+import { rateProductById } from '../controllers/productController';
 
 const { Router } = require('express');
 const logger = require('../../logger');
@@ -83,5 +85,7 @@ router.get('/', async (req: Request, res: Response, next) => {
     next(e);
   }
 });
+
+router.post('/:id/rate', verifyToken, isBuyer, rateProductById);
 
 module.exports = router;
