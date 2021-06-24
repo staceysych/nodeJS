@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { IGetUserAuthInfoRequest } from '../interfaces';
 
-import { ProductService } from '../services';
+import { ProductService, RatingsService } from '../services';
 
 import { ApiError, convertDateToTimestamp, validateRating } from '../utils';
 
@@ -24,6 +24,7 @@ export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Respons
       return;
     }
 
+    await RatingsService.addRating(ratingData);
     const result = await ProductService.rateProduct(ratingData);
     const updatedProduct =
       process.env.DB === POSTGRES_DB ? result.ratingToRes : await ProductService.getProductById(req.params.id);

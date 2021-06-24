@@ -61,6 +61,8 @@ export class ProductTypegooseRepository {
       createdAt: convertDateToTimestamp(),
       price: productData.price,
     };
+
+    console.log(data);
     return new Product(data).save();
   }
 
