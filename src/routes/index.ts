@@ -5,11 +5,16 @@ import { errorHandler } from '../utils/errorHandler';
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const Bree = require('bree');
 const products = require('./products');
 const categories = require('./categories');
 const users = require('./users');
 const logger = require('../../logger');
 const initializePassport = require('../passport/passport');
+
+const bree = new Bree({
+  jobs: [{ name: 'updateRatings' }],
+});
 
 const app: Application = express();
 initializePassport(passport);
@@ -44,5 +49,7 @@ app.use((req: Request, res: Response) => {
 });
 
 app.use(errorHandler);
+
+bree.start();
 
 module.exports = app;
