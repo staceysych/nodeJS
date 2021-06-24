@@ -9,3 +9,12 @@ export const addRating = async (ratingData: IRating) => {
     console.log(error);
   }
 };
+
+export const getLastRatings = async () => {
+  try {
+    const repository = new RatingsRepository().create();
+    return repository.get10LastRatings();
+  } catch (error) {
+    console.log(error);
+  }
+};

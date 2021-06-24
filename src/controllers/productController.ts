@@ -39,7 +39,7 @@ export const rateProductById = async (req: IGetUserAuthInfoRequest, res: Respons
 
 export const get10LastRatings = async (req: Request, res: Response, next: any) => {
   try {
-    const ratings = await ProductService.get10LastRatings();
+    const ratings = await RatingsService.getLastRatings();
     res.status(200).json(ratings);
     logger.debug(JSON.stringify(ratings));
   } catch (e) {
