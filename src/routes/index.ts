@@ -13,7 +13,8 @@ const logger = require('../../logger');
 const initializePassport = require('../passport/passport');
 
 const bree = new Bree({
-  jobs: [{ name: 'updateRatings' }],
+  root: false,
+  jobs: [{ name: 'updateRatings', path: './src/jobs/updateRatings.js', interval: '1m' }],
 });
 
 const app: Application = express();
