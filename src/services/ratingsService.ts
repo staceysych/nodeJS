@@ -18,3 +18,12 @@ export const getLastRatings = async () => {
     console.log(error);
   }
 };
+
+export const deleteRatings = async (date: any) => {
+  try {
+    const repository = new RatingsRepository().create();
+    return repository.deleteRatings(date);
+  } catch (error) {
+    console.log(error);
+  }
+};

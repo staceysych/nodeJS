@@ -1,21 +1,17 @@
 import { Request, Response, Application } from 'express';
 import { get10LastRatings } from '../controllers/productController';
 import { errorHandler } from '../utils/errorHandler';
+import { updateRatings } from '../jobs/updateRatings';
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const Bree = require('bree');
+const cron = require('node-cron');
 const products = require('./products');
 const categories = require('./categories');
 const users = require('./users');
 const logger = require('../../logger');
 const initializePassport = require('../passport/passport');
-
-const bree = new Bree({
-  root: false,
-  jobs: [{ name: 'updateRatings', path: './src/jobs/updateRatings.js', interval: '1m' }],
-});
 
 const app: Application = express();
 initializePassport(passport);
@@ -51,6 +47,8 @@ app.use((req: Request, res: Response) => {
 
 app.use(errorHandler);
 
-bree.start();
+cron.schedule('* * * * *', async () => {
+  updateRatings();
+});
 
 module.exports = app;

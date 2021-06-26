@@ -30,4 +30,8 @@ export class UserRatingsTypegooseRepository {
   async get10LastRatings() {
     return this.dataModel.find({}).sort({ createdAt: -1 }).limit(10);
   }
+
+  async deleteRatings(date: string) {
+    return this.dataModel.deleteMany({ createdAt: { $lt: date } });
+  }
 }
