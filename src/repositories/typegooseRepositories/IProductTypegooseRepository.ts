@@ -62,7 +62,6 @@ export class ProductTypegooseRepository {
       price: productData.price,
     };
 
-    console.log(data);
     return new Product(data).save();
   }
 
