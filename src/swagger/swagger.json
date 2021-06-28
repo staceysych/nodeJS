@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+      "version": "1.0.0",
+      "title": "Games shop API",
+      "description": "API for getting products, categories, CRUD operations with games"
+  },
+  "servers": [
+    {
+        "url": "/",
+        "description": "Local Dev"
+    }
+  ],
+  "tags": [
+    {
+        "name": "Games",
+        "description": "API for games in the system"
+    }
+  ],
+  "consumes": [
+      "application/json"
+  ],
+  "produces": [
+      "application/json"
+  ],
+  "paths": {
+      "/products": {
+          "get": {
+              "tags": [
+                  "Product"
+              ],
+              "summary": "Get all products in the system",
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Products"
+                      }
+                  }
+              }
+          }
+      }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+          "displayName": {
+              "type": "string"
+          },
+          "categoryIds": {
+              "type": "array"
+          },
+          "createdAt": {
+              "type": "string"
+          },
+          "totalRating": {
+              "type": "number"
+          },
+          "price": {
+              "type": "number"
+          },
+          "ratings": {
+              "type": "array"
+          }
+      }
+    },
+    "Products": {
+      "type": "object",
+      "additionalProperties": {
+          "$ref": "#/definitions/Product"
+      }
+    }
+  }
+}
