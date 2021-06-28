@@ -86,4 +86,10 @@ export class ProductTypeOrmRepository extends Repository<Product> {
 
     return data;
   }
+
+  async get10LastRatings() {
+    const repository = await getCustomRepository(UserRatingsTypeOrmRepository);
+    const allRatings = await repository.getRatings();
+    return allRatings;
+  }
 }

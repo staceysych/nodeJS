@@ -16,4 +16,7 @@ export class UserRatings {
 
   @Column('varchar', { length: 100, nullable: true })
   comment?: string;
+
+  @Column({ type: 'timestamp', default: 'now()' })
+  created_at?: Date = new Date();
 }

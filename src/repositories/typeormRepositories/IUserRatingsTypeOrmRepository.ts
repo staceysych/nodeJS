@@ -48,4 +48,9 @@ export class UserRatingsTypeOrmRepository extends Repository<UserRatings> {
       allRatingsById,
     };
   }
+
+  async getRatings() {
+    const allRatings = await this.find();
+    return allRatings;
+  }
 }
