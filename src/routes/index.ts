@@ -2,6 +2,7 @@ import { Request, Response, Application } from 'express';
 import { get10LastRatings } from '../controllers/productController';
 import { errorHandler } from '../utils/errorHandler';
 import { updateRatings } from '../jobs/updateRatings';
+import { EVERY_MONDAY_CRON } from '../utils/constants';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -47,7 +48,7 @@ app.use((req: Request, res: Response) => {
 
 app.use(errorHandler);
 
-cron.schedule('* * * * *', async () => {
+cron.schedule(EVERY_MONDAY_CRON, async () => {
   updateRatings();
 });
 
