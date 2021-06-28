@@ -1,10 +1,13 @@
 import { Request, Response, Application } from 'express';
 import { get10LastRatings } from '../controllers/productController';
 import { errorHandler } from '../utils/errorHandler';
+import { updateRatings } from '../jobs/updateRatings';
+import { EVERY_MONDAY_CRON } from '../utils/constants';
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const cron = require('node-cron');
 const products = require('./products');
 const categories = require('./categories');
 const users = require('./users');
@@ -44,5 +47,9 @@ app.use((req: Request, res: Response) => {
 });
 
 app.use(errorHandler);
+
+cron.schedule(EVERY_MONDAY_CRON, async () => {
+  updateRatings();
+});
 
 module.exports = app;

@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, FindManyOptions, LessThanOrEqual, Repository } from 'typeorm';
 import { UserRatings } from '../../db/schemas/typeormSchemas/UserRatingsTypeOrmSchema';
 
 @EntityRepository(UserRatings)
@@ -49,8 +49,19 @@ export class UserRatingsTypeOrmRepository extends Repository<UserRatings> {
     };
   }
 
-  async getRatings() {
-    const allRatings = await this.find();
-    return allRatings;
+  async get10LastRatings() {
+    const conditions: FindManyOptions<UserRatings> = {
+      order: { created_at: 'DESC' },
+      take: 10,
+    };
+    return this.find(conditions);
+  }
+
+  async deleteRatings(date: any) {
+    return this.createQueryBuilder('user_ratings')
+      .delete()
+      .from(UserRatings)
+      .where({ created_at: LessThanOrEqual(date) })
+      .execute();
   }
 }

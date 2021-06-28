@@ -16,3 +16,5 @@ export const ROLES = { admin: 'admin', buyer: 'buyer' };
 export const CATEGORY_WAS_DELETED = 'Category was deleted';
 export const PRODUCT_WAS_DELETED = 'Product was deleted';
 export const INVALID_RATING = 'Rating should be more or equal 0 and less or equal 10';
+export const EVERY_MONDAY_CRON = '0 0 * * MON';
+export const EVERY_MINUTE_CRON = '* * * * *';
