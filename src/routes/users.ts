@@ -36,7 +36,7 @@ router.put('/profile', verifyToken, updateUserProfile);
 
 router.post('/profile/password', verifyToken, updateUserPassword);
 
-router.get('/admin/products/:id', verifyToken, getProduct);
+router.get('/admin/products/:id', verifyToken, isAdmin, getProduct);
 
 router.post('/admin/products', verifyToken, isAdmin, createNewProduct);
 
