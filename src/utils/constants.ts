@@ -18,3 +18,9 @@ export const PRODUCT_WAS_DELETED = 'Product was deleted';
 export const INVALID_RATING = 'Rating should be more or equal 0 and less or equal 10';
 export const EVERY_MONDAY_CRON = '0 0 * * MON';
 export const EVERY_MINUTE_CRON = '* * * * *';
+export const NOTHING_FOUND_BY_DISPLAY_NAME = 'Nothing was found for this display name';
+export const MIN_RATING_ERROR = 'Bad request. You need to write the request as ?minRating=2';
+export const NOTHING_FOUND_BY_MIN_RATING = 'Nothing was found for minRating';
+export const NOTHING_FOUND_BY_PRICE = 'Nothing was found for price';
+export const PRICE_ERROR =
+  'Bad request. You need to write the request as ?price=10:50 (to set a price range) or ?price=10 (to get products with the price more than 10) or ?price=:50 (to get products with the price less than 50)';

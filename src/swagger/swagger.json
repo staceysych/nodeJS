@@ -24,6 +24,22 @@
       "application/json"
   ],
   "paths": {
+      "/categories": {
+          "get": {
+              "tags": [
+                  "Category"
+              ],
+              "summary": "Get all categories in the system",
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Categories"
+                      }
+                  }
+              }
+          }
+      },
       "/products": {
           "get": {
               "tags": [
@@ -39,6 +55,38 @@
                   }
               }
           }
+      },
+      "/products/getByDisplayName": {
+        "get": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Get a product by displayName",
+          "operationId": "getByDisplayName",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "displayName",
+              "in": "query",
+              "description": "DisplayName to search a product",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            },
+            "400": {
+              "description": "Invalid status value"
+            }
+          }
+        }
       }
   },
   "definitions": {
@@ -65,10 +113,27 @@
           }
       }
     },
+    "Category": {
+      "type": "object",
+      "properties": {
+          "displayName": {
+              "type": "string"
+          },
+          "categoryIds": {
+              "type": "array"
+          }
+      }
+    },
     "Products": {
       "type": "object",
       "additionalProperties": {
           "$ref": "#/definitions/Product"
+      }
+    },
+    "Categories": {
+      "type": "object",
+      "additionalProperties": {
+          "$ref": "#/definitions/Category"
       }
     }
   }
