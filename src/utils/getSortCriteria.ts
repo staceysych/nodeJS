@@ -1,6 +1,6 @@
 import { SORT_DIRECTION } from './constants';
 
-export const getSortCriteria = (req) => {
+export const getSortCriteria = (req: any) => {
   const sortObj = req.query.sortBy as string;
   const sortCriteria = sortObj.split(':');
   const field = sortCriteria[0];
