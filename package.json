@@ -9,7 +9,7 @@
     "mongo": "set NODE_ENV=development&&set DB=mongo&&set DB_CONN_STRING=mongodb://localhost/nodeJs&&npm run start",
     "build": "tsc && node dist/server.js",
     "lint": "lint-staged",
-    "test": "set NODE_ENV=development&&set DB=mongo&&set DB_CONN_STRING=mongodb://localhost/nodeJs&&jest"
+    "test": "set NODE_ENV=development&&set DB=mongo&&jest"
   },
   "repository": {
     "type": "git",
