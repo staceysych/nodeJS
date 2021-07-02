@@ -1,8 +1,10 @@
 import { Request, Response, Application } from 'express';
+import swaggerUi from 'swagger-ui-express';
 import { get10LastRatings } from '../controllers/productController';
 import { errorHandler } from '../utils/errorHandler';
 import { updateRatings } from '../jobs/updateRatings';
 import { EVERY_MONDAY_CRON } from '../utils/constants';
+import * as swaggerDocument from '../swagger/swagger.json';
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -34,6 +36,7 @@ app.get('/lastRatings', get10LastRatings);
 app.use('/products', products);
 app.use('/categories', categories);
 app.use('/users', users);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req: Request, res: Response) => {
   logger.error(`status: 404, message: Nothing was found for this request ${req.originalUrl}`);

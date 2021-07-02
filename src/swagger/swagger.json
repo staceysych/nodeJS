@@ -1,0 +1,890 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "version": "1.0.0",
+      "title": "Games shop API",
+      "description": "API for getting products, categories, CRUD operations with games"
+  },
+  "servers": [
+    {
+        "url": "/",
+        "description": "Local Dev"
+    }
+  ],
+  "tags": [
+    {
+        "name": "Games",
+        "description": "API for games in the system"
+    }
+  ],
+  "consumes": [
+      "application/json"
+  ],
+  "produces": [
+      "application/json"
+  ],
+  "paths": {
+      "/users": {
+        "get": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Get all users",
+          "description": "",
+          "operationId": "getUsers",
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "schema": {
+                  "$ref": "#/definitions/Users"
+              }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      },
+      "/users/register": {
+        "post": {
+          "tags": [
+            "User"
+          ],
+          "summary": "Create user",
+          "description": "Sign up a user",
+          "operationId": "signUp",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Created user object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          ],
+          "responses": {
+            "default": {
+              "description": "successful operation"
+            }
+          }
+        }
+      },
+    "/users/authenticate": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Logs user into the system",
+        "description": "",
+        "operationId": "login",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Username and password",
+            "required": true,
+            "schema": {
+              "example": {
+                "username": "paulTrof",
+                "password": "123love!"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/users/token": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Generate new token using refresh token",
+        "description": "",
+        "operationId": "token",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Refresh token",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "example": {
+                "refreshToken": ""
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Invalid token"
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update user",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateUserProfile",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "example": {
+                "username": "paulTrof",
+                "firstName": "Pavel",
+                "lastName": "Trofimov"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/profile/password": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Change user password",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateUserPassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "You should provide an old password and a new one.",
+            "required": true,
+            "schema": {
+              "example": {
+                "username": "paulTrof",
+                "password": "123love!",
+                "newPassword": "Love123!"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/admin/products/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get a product by id",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "getProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Product id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Nothing was found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update a product by id",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "updateProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Product id",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated product object",
+            "required": true,
+            "example": {
+              "displayName": "Spider man 2021",
+              "price": 98
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Nothing was found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete a product by id",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "deleteProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Product id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/admin/products": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new product",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "createNewProduct",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Product Object",
+            "required": true,
+            "schema": {
+              "example": {
+                "displayName": "Spider man",
+                "categoryIds": ["strategy"],
+                "price": 56
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/admin/categories/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get a category by id",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "getCategory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Category id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Nothing was found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update a category by id",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "updateCategoryById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Category id",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated category object",
+            "required": true,
+            "example": {
+              "displayName": "xbox 360"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Nothing was found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete a category by id",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "deleteCategory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Category id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "Nothing was found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/admin/categories": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new category",
+        "description": "This can only be done by the logged in user with admin role.",
+        "operationId": "createNewCategory",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Category Object",
+            "required": true,
+            "schema": {
+              "example": {
+                "displayName": "Xbox"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+      "/categories": {
+          "get": {
+              "tags": [
+                  "Category"
+              ],
+              "summary": "Get all categories in the system",
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Categories"
+                      }
+                  }
+              }
+          }
+      },
+      "/categories/{id}": {
+          "get": {
+              "tags": [
+                  "Category"
+              ],
+              "summary": "Get a category by id",
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "Category id",
+                  "required": true
+                },
+                {
+                  "name": "includeProducts",
+                  "in": "query",
+                  "description": "Show category with related products. (true or false)",
+                  "required": false
+                },
+                {
+                  "name": "includeTop3Products",
+                  "in": "query",
+                  "description": "Show category with related top 3 products. (true or false)",
+                  "required": false
+                }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Category"
+                      }
+                  }
+              }
+          }
+      },
+      "/products": {
+          "get": {
+              "tags": [
+                  "Product"
+              ],
+              "summary": "Get all products in the system",
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "schema": {
+                          "$ref": "#/definitions/Products"
+                      }
+                  }
+              }
+          }
+      },
+      "/products/getByDisplayName": {
+        "get": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Get a product by displayName",
+          "operationId": "getByDisplayName",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "displayName",
+              "in": "query",
+              "description": "DisplayName to search a product",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/Product"
+              }
+            },
+            "400": {
+              "description": "Invalid status value"
+            }
+          }
+        }
+      },
+      "/products/getByMinRating": {
+        "get": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Get products by minRating",
+          "operationId": "getByMinRating",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "minRating",
+              "in": "query",
+              "description": "minRating to search products",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/Products"
+              }
+            },
+            "400": {
+              "description": "Invalid status value"
+            }
+          }
+        }
+      },
+      "/products/getByPrice": {
+        "get": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Get products by price",
+          "operationId": "getByPrice",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "price",
+              "in": "query",
+              "description": "You need to write the request as 10:50 (to set a price range) or 10 (to get products with the price more than 10) or :50 (to get products with the price less than 50)",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "sortBy",
+              "in": "query",
+              "description": "You need to specify sort criteria and direction(asc or desc). example: totalRating:desc",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/Products"
+              }
+            },
+            "400": {
+              "description": "Invalid status value"
+            }
+          }
+        }
+      },
+      "/products/{id}/rate": {
+        "post": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Rate product",
+          "operationId": "rateProductById",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Id of a product that you want to rate",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "in": "body",
+              "name": "body",
+              "description": "Rating object that needs to be added to the product",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Rating"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "schema": {
+                "$ref": "#/definitions/Products"
+              }
+            },
+            "400": {
+              "description": "Invalid status value"
+            }
+          },
+          "security": [
+            {
+              "JWT": []
+            }
+          ]
+        }
+      }
+  },
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+          "username": {
+              "type": "string"
+          },
+          "password": {
+              "type": "string"
+          },
+          "firstName": {
+              "type": "string",
+              "required": false
+          },
+          "lastName": {
+              "type": "string",
+              "required": false
+          },
+          "role": {
+              "type": "string",
+              "required": false
+          }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+          "displayName": {
+              "type": "string"
+          },
+          "categoryIds": {
+              "type": "array"
+          },
+          "createdAt": {
+              "type": "string"
+          },
+          "totalRating": {
+              "type": "number"
+          },
+          "price": {
+              "type": "number"
+          },
+          "ratings": {
+              "type": "array"
+          }
+      }
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+          "displayName": {
+              "type": "string"
+          },
+          "categoryIds": {
+              "type": "array"
+          }
+      }
+    },
+    "Rating": {
+      "type": "object",
+      "properties": {
+          "username": {
+              "type": "string"
+          },
+          "createdAt": {
+              "type": "string"
+          },
+          "productId": {
+              "type": "string"
+          },
+          "rating": {
+              "type": "number"
+          },
+          "comment": {
+              "type": "string"
+          }
+      },
+      "example": {
+        "rating": 5,
+        "comment": "Interesting game"
+      }
+    },
+    "Products": {
+      "type": "object",
+      "additionalProperties": {
+          "$ref": "#/definitions/Product"
+      }
+    },
+    "Categories": {
+      "type": "object",
+      "additionalProperties": {
+          "$ref": "#/definitions/Category"
+      }
+    },
+    "Ratings": {
+      "type": "object",
+      "additionalProperties": {
+          "$ref": "#/definitions/Rating"
+      }
+    },
+    "Users": {
+      "type": "object",
+      "additionalProperties": {
+          "$ref": "#/definitions/User"
+      }
+    }
+  }
+}
