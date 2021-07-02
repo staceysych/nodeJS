@@ -15,7 +15,7 @@ export const getProductById = async (id: any) => {
 export const addProduct = async (productData: any) => {
   try {
     const repository = new ProductRepository().create();
-    return await repository.createProduct(productData);
+    return repository.createProduct(productData);
   } catch (error) {
     ApiError.badRequest(error);
   }
