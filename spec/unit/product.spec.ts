@@ -1,9 +1,19 @@
+/* eslint-disable no-param-reassign */
 import { dbConnect, dbDisconnect } from '../dbHandler';
-import { AdminService, ProductService } from '../../src/services';
+import { AdminService, ProductService, UserService } from '../../src/services';
 import { convertDateToTimestamp } from '../../src/utils';
+import { generateAccessToken } from '../../src/utils/authHelpers';
 
 const supertest = require('supertest');
 const app = require('../../src/routes');
+
+const mockedUserData = {
+  username: 'harryPotter',
+  password: '123Love!',
+  role: 'buyer',
+  firstName: 'Harry',
+  lastName: 'Potter',
+};
 
 const mockedCategory1 = {
   displayName: 'sport',
@@ -65,5 +75,25 @@ describe('Product routes tests ', () => {
     expect(products.body.length).toEqual(1);
     expect(products.body[0].totalRating).toEqual(4);
     expect(products.body[0].displayName).toEqual('FIFA');
+  });
+
+  it('POST /products/{id}/rate', async () => {
+    await UserService.register(
+      mockedUserData.username,
+      mockedUserData.password,
+      mockedUserData.role,
+      mockedUserData.firstName,
+      mockedUserData.lastName
+    );
+    const token = generateAccessToken(mockedUserData.username, mockedUserData.role);
+    const allProducts = await supertest(app).get(`/products`);
+    await supertest(app)
+      .post(`/products/${allProducts.body[0]._id}/rate`)
+      .auth(token, { type: 'bearer' })
+      .send({
+        rating: 5.6,
+        comment: 'Great Game!',
+      })
+      .expect(200);
   });
 });

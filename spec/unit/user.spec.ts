@@ -16,14 +16,13 @@ describe('User ', () => {
   };
 
   it('register a user should be successful', async () => {
-    expect(async () =>
-      UserService.register(
-        mockedUserData.username,
-        mockedUserData.password,
-        mockedUserData.role,
-        mockedUserData.firstName,
-        mockedUserData.lastName
-      )
-    ).not.toThrow();
+    await UserService.register(
+      mockedUserData.username,
+      mockedUserData.password,
+      mockedUserData.role,
+      mockedUserData.firstName,
+      mockedUserData.lastName
+    );
+    expect(200);
   });
 });

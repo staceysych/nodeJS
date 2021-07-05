@@ -24,7 +24,7 @@ const { Router } = require('express');
 
 const router = Router();
 
-router.get('/', verifyToken, getUsers);
+router.get('/', getUsers);
 
 router.post('/register', signUp);
 
