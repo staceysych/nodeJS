@@ -19,7 +19,7 @@ import { refreshTokens, generateAccessToken, generateRefreshToken } from '../uti
 import { comparePasswords } from '../utils/passwordHelpers';
 import { ApiError } from '../utils';
 
-const logger = require('../../logger');
+const logger = require('../logger');
 
 export const renewAccessToken = (req: Request, res: Response, next) => {
   const { refreshSecret } = jwtConfig;

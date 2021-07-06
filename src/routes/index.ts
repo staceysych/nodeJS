@@ -13,7 +13,7 @@ const cron = require('node-cron');
 const products = require('./products');
 const categories = require('./categories');
 const users = require('./users');
-const logger = require('../../logger');
+const logger = require('../logger');
 const initializePassport = require('../passport/passport');
 
 const app: Application = express();

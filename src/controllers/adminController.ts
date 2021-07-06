@@ -6,7 +6,7 @@ import { IGetUserAuthInfoRequest } from '../interfaces';
 
 import { POSTGRES_DB, CATEGORY_WAS_DELETED, PRODUCT_WAS_DELETED } from '../utils/constants';
 
-const logger = require('../../logger');
+const logger = require('../logger');
 
 export const getProduct = async (req: IGetUserAuthInfoRequest, res: Response, next: any) => {
   try {
