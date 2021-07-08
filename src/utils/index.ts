@@ -1,4 +1,4 @@
-import { ApiError } from './apiError';
+import { ApiError } from './ApiError';
 import { getCategoryIdByName } from './getCategoryIdByName';
 import { convertDateToTimestamp } from './convertDateToTimestamp';
 import { countTotalRating } from './countTotalRating';
