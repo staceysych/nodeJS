@@ -5,7 +5,7 @@ require('../websocketServer');
 
 export const connectToMongo = async (app) => {
   try {
-    await mongoose.connect(process.env.DB_CONN_STRING || dbString, {
+    await mongoose.connect(dbString, {
       useNewUrlParser: true,
       useFindAndModify: false,
       useUnifiedTopology: true,
