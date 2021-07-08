@@ -24,7 +24,6 @@ export const getAllProducts = async (req: Request, res: Response, next: any) => 
     const skip = parseInt(req.query.skip as string, 10);
 
     const data = await ProductService.getAllProducts(limit, skip);
-    console.log(data);
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(data);
     const convertedData = process.env.DB === POSTGRES_DB ? JSON.stringify(data) : data;
