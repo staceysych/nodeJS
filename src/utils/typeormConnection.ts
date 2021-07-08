@@ -18,7 +18,7 @@ export const connectToTypeorm = async (app) => {
       await createConnection(ORMConfig);
     }
     console.log('🌴 Successfully connected to PostgreSQL');
-    app.listen(8080, () => {
+    app.listen(process.env.PORT || 8080, () => {
       console.log(`Express is listening at http://localhost:${8080}`);
     });
   } catch (e) {

@@ -21,7 +21,7 @@ const connectToMongo = (app) => __awaiter(void 0, void 0, void 0, function* () {
             useUnifiedTopology: true,
         });
         console.log('Successfully connected to MongoDB');
-        app.listen(3000, () => {
+        app.listen(process.env.PORT || 3000, () => {
             console.log(`Express is listening`);
         });
     }
