@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const authHelpers_1 = require("../utils/authHelpers");
+const userController_1 = require("../controllers/userController");
+const adminController_1 = require("../controllers/adminController");
+const passportMiddleware_1 = require("../passport/passportMiddleware");
+const { Router } = require('express');
+const router = Router();
+router.get('/', userController_1.getUsers);
+router.post('/register', userController_1.signUp);
+router.post('/authenticate', passportMiddleware_1.login);
+router.post('/token', userController_1.renewAccessToken);
+router.put('/profile', authHelpers_1.verifyToken, userController_1.updateUserProfile);
+router.post('/profile/password', authHelpers_1.verifyToken, userController_1.updateUserPassword);
+router.get('/admin/products/:id', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.getProduct);
+router.post('/admin/products', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.createNewProduct);
+router.patch('/admin/products/:id', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.updateProduct);
+router.delete('/admin/products/:id', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.deleteProduct);
+router.get('/admin/categories/:id', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.getCategory);
+router.post('/admin/categories', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.createNewCategory);
+router.patch('/admin/categories/:id', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.updateCategoryById);
+router.delete('/admin/categories/:id', authHelpers_1.verifyToken, authHelpers_1.isAdmin, adminController_1.deleteCategory);
+module.exports = router;
+//# sourceMappingURL=users.js.map
