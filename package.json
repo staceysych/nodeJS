@@ -7,7 +7,7 @@
     "start": "nodemon",
     "postgres": "set NODE_ENV=development&&set DB=pg&&set DB_CONN_STRING=postgres://localhost:5432/nodeJs&&npm run start",
     "mongo": "set NODE_ENV=development&&set DB=mongo&&set DB_CONN_STRING=mongodb://localhost/nodeJs&&npm run start",
-    "build": "set NODE_ENV=production&&tsc && node dist/server.js",
+    "build": "set NODE_ENV=production&&tsc",
     "lint": "lint-staged",
     "test": "set NODE_ENV=development&&set DB=mongo&&jest"
   },
