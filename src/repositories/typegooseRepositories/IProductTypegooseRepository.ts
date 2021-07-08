@@ -17,6 +17,7 @@ export class ProductTypegooseRepository {
   }
 
   async getAll(limit = 0, skip = 0) {
+    console.log(this.dataModel);
     return this.dataModel.find({}).skip(skip).limit(limit);
   }
 
