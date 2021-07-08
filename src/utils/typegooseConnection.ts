@@ -12,7 +12,7 @@ export const connectToMongo = async (app) => {
     });
     console.log('Successfully connected to MongoDB');
     app.listen(3000, () => {
-      console.log(`Express is listening at http://localhost:${3000}`);
+      console.log(`Express is listening`);
     });
   } catch (e) {
     console.log('ERROR: Database connection failed!!', e);
