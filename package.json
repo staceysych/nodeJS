@@ -9,7 +9,10 @@
     "mongo": "set NODE_ENV=development&&set DB=mongo&&set DB_CONN_STRING=mongodb://localhost/nodeJs&&npm run start",
     "build": "set NODE_ENV=production&&tsc",
     "lint": "lint-staged",
-    "test": "set NODE_ENV=development&&set DB=mongo&&jest"
+    "test": "set NODE_ENV=development&&set DB=mongo&&jest",
+    "docker-compose-down": "docker-compose -f ./docker-compose.yml down",
+    "docker-compose-up:dev": "docker-compose -f ./docker-compose.yml up -d --build api-dev",
+    "docker:dev": "npm run docker-compose-down&&npm run docker-compose-up:dev&&docker-compose logs -f api-dev"
   },
   "repository": {
     "type": "git",
@@ -55,7 +58,7 @@
     "jest": "^27.0.6",
     "lint-staged": "^11.0.0",
     "mongodb-memory-server": "^6.9.6",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.12",
     "prettier": "2.3.1",
     "prettier-eslint": "^12.0.0",
     "supertest": "^6.1.3",
