@@ -2,7 +2,7 @@ require('dotenv').config();
 
 export const db = process.env.DB;
 export const dbString = process.env.DB_CONN_STRING;
-export const port = process.env.PORT;
+export const port = process.env.PORT || 3000;
 export const psqlHost = process.env.POSTGRES_HOST;
 export const psqlPort = process.env.POSTGRES_PORT;
 export const psqlPassword = process.env.POSTGRES_PASSWORD;

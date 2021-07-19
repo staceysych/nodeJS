@@ -13,7 +13,7 @@ const cron = require('node-cron');
 const products = require('./products');
 const categories = require('./categories');
 const users = require('./users');
-const logger = require('../../logger');
+const logger = require('../logger');
 const initializePassport = require('../passport/passport');
 
 const app: Application = express();
@@ -28,7 +28,9 @@ app.use((req: Request, res: Response, done) => {
 });
 
 app.get('/', (req: Request, res: Response) => {
-  res.send(`Hello, ${process.env.USERNAME}! My name is Anastasiya Sych. It's my first ${process.env.DB} server`);
+  res.send(
+    `Hello, ${process.env.USERNAME}! My name is Anastasiya Sych. It's my first server. Check all routes here https://safe-coast-54150.herokuapp.com/api-docs/`
+  );
 });
 
 app.get('/lastRatings', get10LastRatings);

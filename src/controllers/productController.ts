@@ -16,7 +16,7 @@ import {
   NOTHING_FOUND_BY_PRICE,
 } from '../utils/constants';
 
-const logger = require('../../logger');
+const logger = require('../logger');
 
 export const getAllProducts = async (req: Request, res: Response, next: any) => {
   try {

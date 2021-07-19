@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-const logger = require('../../logger');
+const logger = require('../logger');
 
 // eslint-disable-next-line no-unused-vars
 export const errorHandler = (error: any, req: Request, res: Response, next: any) => {

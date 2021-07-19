@@ -4,7 +4,7 @@ import { CategoryService } from '../services';
 
 import { POSTGRES_DB } from '../utils/constants';
 
-const logger = require('../../logger');
+const logger = require('../logger');
 
 export const getAllCategories = async (req: Request, res: Response, next: any) => {
   try {
