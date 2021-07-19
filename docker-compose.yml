@@ -4,6 +4,7 @@ services:
   api-dev:
     build:
       context: .
+      command: npm run build
       dockerfile: Dockerfile
     ports:
       - "5006:3000"
